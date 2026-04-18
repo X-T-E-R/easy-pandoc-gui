@@ -1,4 +1,5 @@
 export * from './format-registry'
 export * from './types'
 export * from './observability/events'
-
+export * from './config/schema'
+export * from './pandoc/runner'

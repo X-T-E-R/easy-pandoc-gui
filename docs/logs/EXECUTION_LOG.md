@@ -23,6 +23,7 @@
 - 以 TDD 完成 format registry、observability event schema、docx XML helper
 - 以 TDD 完成首条兼容转换规则和桌面应用壳层入口
 - 接入 Husky hooks、Commitlint、CI workflow、事件目录文档
+- 以 TDD 完成 app config schema、Pandoc 参数编排和 harness 摘要模块
 
 ## Verification
 
@@ -33,6 +34,7 @@
 - `pnpm typecheck` 通过
 - `pnpm lint` 通过
 - `pnpm build` 通过
+- 全量测试数量已扩展到 8 条，并再次通过 `test/typecheck/lint/build`
 
 ## Next Actions
 
@@ -40,3 +42,4 @@
 - 引入 Pandoc runner、配置 schema 和资源路径策略
 - 为 harness 增加 fixtures、报告和 docx XML 断言能力
 - 把桌面壳从静态入口扩展到规则矩阵、日志流和 harness 运行入口
+- 开始引入真实 legacy fixtures，并把旧项目样例迁入 harness 回归
