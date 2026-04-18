@@ -81,4 +81,31 @@ describe('cli mode', () => {
     expect(exitCode).toBe(0)
     expect(readFileSync(outputPath, 'utf8')).toContain('![图 1 示例](a.png)')
   })
+
+  test('export command calls pandoc runner with transformed temporary input', async () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), 'testpandoc-cli-'))
+    tempDirs.push(dir)
+    const inputPath = path.join(dir, 'input.md')
+    const outputPath = path.join(dir, 'output.html')
+    writeFileSync(inputPath, '$$ a = b \\\\tag{2} $$', 'utf8')
+
+    const calls: string[] = []
+    const exitCode = await runCli(
+      ['export', '--input', inputPath, '--output', outputPath, '--to', 'html'],
+      {
+        stdout: () => undefined,
+        stderr: () => undefined
+      },
+      {
+        runPandoc: (job) => {
+          calls.push(readFileSync(job.inputPath, 'utf8'))
+          return Promise.resolve({ stdout: 'ok', stderr: '' })
+        }
+      }
+    )
+
+    expect(exitCode).toBe(0)
+    expect(calls).toHaveLength(1)
+    expect(calls[0]).toContain('$$a = b$$ {#eq:2}')
+  })
 })

@@ -27,4 +27,5 @@
 ```bash
 pnpm cli -- inspect --input ../总稿_V2.1.md --json
 pnpm cli -- transform --input ../test_pandoc.md --output tmp/test_pandoc.transformed.md
+pnpm cli -- export --input ../test_pandoc.md --output tmp/exports/test_pandoc.html --to html
 ```

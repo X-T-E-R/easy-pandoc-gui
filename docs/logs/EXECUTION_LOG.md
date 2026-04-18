@@ -26,6 +26,7 @@
 - 以 TDD 完成 app config schema、Pandoc 参数编排和 harness 摘要模块
 - 以 TDD 新增 CLI 模式、Markdown 扫描器和真实数据调试入口
 - 基于真实数据补出 `center-caption-block` 扫描规则和 `math-tag` 自动改写
+- 以 TDD 新增真实 `pandoc` 导出链路，CLI 现已支持 `inspect / transform / export`
 
 ## Verification
 
@@ -42,6 +43,10 @@
   - `总稿_V2.1.md` transform 后命中：`legacy=1`、`forbidden=9`
   - `test_pandoc.md` 当前命中：`standardExtension=1`、`legacy=1`
   - `test_pandoc.md` transform 后命中：`legacy=0`
+- CLI 导出验证：
+  - `test_pandoc.md -> test_pandoc.html` 成功
+  - `test_pandoc.md -> test_pandoc.docx` 成功，但 SVG 图片转换警告提示缺少 `rsvg-convert`
+  - `总稿_V2.1.md -> 总稿_V2.1.html` 成功，但未提供 bibliography 时 citation 保持原样显示
 
 ## Next Actions
 
@@ -51,3 +56,4 @@
 - 把桌面壳从静态入口扩展到规则矩阵、日志流和 harness 运行入口
 - 开始引入真实 legacy fixtures，并把旧项目样例迁入 harness 回归
 - 继续处理剩余 9 条绝对路径图片和 1 条独立中心题注块
+- 引入 bibliography / reference-doc 配置落地和更完整的导出配置面板
