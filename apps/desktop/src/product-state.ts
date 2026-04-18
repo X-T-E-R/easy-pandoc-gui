@@ -1,5 +1,5 @@
 import { formatRegistry } from '../../../packages/core/src/format-registry'
-import { createHarnessRunSummary } from '../../../packages/harness/src/report'
+import latestHarnessReport from '../../../fixtures/real-world/harness-report.json'
 
 export const ruleSections = [
   {
@@ -51,18 +51,15 @@ export const deliveryPhases = [
   }
 ] as const
 
-export const harnessSnapshot = {
-  counts: {
-    passed: 2,
-    failed: 0,
-    warnings: 1
-  },
-  summary: createHarnessRunSummary({
-    passed: 2,
-    failed: 0,
-    warnings: 1
-  })
-}
+export const harnessSnapshot = latestHarnessReport.summary
+
+export const recentHarnessCases = latestHarnessReport.cases.map((entry) => ({
+  id: entry.id,
+  status: entry.status,
+  outputPath: entry.outputPath,
+  diagnostics: entry.diagnostics.length,
+  warnings: entry.warnings.length
+}))
 
 export const currentBlockers = [
   '缺少 rsvg-convert，SVG 图片转 DOCX 仍有环境依赖',

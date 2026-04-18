@@ -14,7 +14,8 @@ import {
 import {
   parseHarnessManifest,
   renderHarnessReportMarkdown,
-  runHarnessManifest
+  runHarnessManifest,
+  writeHarnessArtifacts
 } from '@testpandoc/harness'
 
 export interface CliIo {
@@ -54,6 +55,7 @@ export async function runCli(
       input: { type: 'string' },
       output: { type: 'string' },
       manifest: { type: 'string' },
+      'report-dir': { type: 'string' },
       json: { type: 'boolean', default: false },
       to: { type: 'string' },
       bibliography: { type: 'string' },
@@ -80,12 +82,21 @@ export async function runCli(
       cwd: baseDir,
       runPandoc: deps.runPandoc
     })
+    const artifacts = values['report-dir']
+      ? await writeHarnessArtifacts(result, {
+          outputDir: path.resolve(baseDir, values['report-dir'])
+        })
+      : undefined
 
     if (values.json) {
-      io.stdout(JSON.stringify(result, null, 2))
+      io.stdout(JSON.stringify(artifacts ? { ...result, artifacts } : result, null, 2))
       return 0
     }
 
+    if (artifacts) {
+      io.stdout(`report.json: ${artifacts.jsonPath}`)
+      io.stdout(`report.md: ${artifacts.markdownPath}`)
+    }
     io.stdout(renderHarnessReportMarkdown(result))
     return 0
   }
@@ -213,7 +224,7 @@ function printHelp(io: CliIo): void {
   io.stdout('  inspect --input <file> [--json]')
   io.stdout('  transform --input <file> [--output <file>]')
   io.stdout('  export --input <file> --output <file> [--to html|docx]')
-  io.stdout('  harness --manifest <file> [--json]')
+  io.stdout('  harness --manifest <file> [--json] [--report-dir <dir>]')
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

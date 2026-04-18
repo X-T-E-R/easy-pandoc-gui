@@ -11,7 +11,11 @@ import {
   type MarkdownUsageReport
 } from '@testpandoc/core'
 
-import { createHarnessRunSummary } from './report'
+import {
+  createHarnessRunSummary,
+  parsePandocDiagnostics,
+  type HarnessDiagnostic
+} from './report'
 
 export interface HarnessManifestCase {
   id: string
@@ -37,7 +41,7 @@ export interface HarnessCaseResult {
   before: MarkdownUsageReport
   after: MarkdownUsageReport
   warnings: CanonicalizeWarning[]
-  stderr: string
+  diagnostics: HarnessDiagnostic[]
   status: 'passed' | 'warning' | 'failed'
 }
 
@@ -144,6 +148,7 @@ export async function runHarnessManifest(
           ...(entry.resourcePaths?.map((item) => path.resolve(cwd, item)) ?? [])
         ]
       })
+      const diagnostics = parsePandocDiagnostics(exportResult.stderr)
 
       cases.push({
         id: entry.id,
@@ -153,13 +158,14 @@ export async function runHarnessManifest(
         before,
         after,
         warnings: canonical.warnings,
-        stderr: exportResult.stderr,
+        diagnostics,
         status:
-          canonical.warnings.length > 0 || exportResult.stderr.length > 0
+          canonical.warnings.length > 0 || diagnostics.length > 0
             ? 'warning'
             : 'passed'
       })
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
       cases.push({
         id: entry.id,
         inputPath,
@@ -168,7 +174,13 @@ export async function runHarnessManifest(
         before,
         after,
         warnings: canonical.warnings,
-        stderr: error instanceof Error ? error.message : String(error),
+        diagnostics: [
+          {
+            code: 'generic-error',
+            severity: 'error',
+            message
+          }
+        ],
         status: 'failed'
       })
     } finally {
@@ -196,45 +208,6 @@ export async function runHarnessManifest(
       status: summaryStatus.status
     }
   }
-}
-
-export function renderHarnessReportMarkdown(result: HarnessManifestResult): string {
-  const lines = [
-    '# Harness Report',
-    '',
-    `- Total Cases: ${result.summary.totalCases}`,
-    `- Passed Cases: ${result.summary.passedCases}`,
-    `- Warning Cases: ${result.summary.warningCases}`,
-    `- Failed Cases: ${result.summary.failedCases}`,
-    `- Pass Rate: ${result.summary.passRate}%`,
-    `- Status: ${result.summary.status}`,
-    ''
-  ]
-
-  for (const entry of result.cases) {
-    lines.push(`## ${entry.id}`)
-    lines.push(`- Status: ${entry.status}`)
-    lines.push(`- Output: ${entry.outputPath}`)
-    lines.push(
-      `- Legacy Hits: ${entry.before.legacyCompatibleHits} -> ${entry.after.legacyCompatibleHits}`
-    )
-    lines.push(`- Forbidden Hits: ${entry.before.forbiddenHits} -> ${entry.after.forbiddenHits}`)
-
-    if (entry.warnings.length > 0) {
-      lines.push('- Warnings:')
-      for (const warning of entry.warnings) {
-        lines.push(`  - unresolved asset: ${warning.rawPath}`)
-      }
-    }
-
-    if (entry.stderr) {
-      lines.push(`- Pandoc Stderr: ${entry.stderr}`)
-    }
-
-    lines.push('')
-  }
-
-  return lines.join('\n')
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

@@ -1,4 +1,4 @@
-import { currentBlockers, harnessSnapshot } from '../../product-state'
+import { currentBlockers, harnessSnapshot, recentHarnessCases } from '../../product-state'
 
 export function HarnessPanel() {
   return (
@@ -9,21 +9,31 @@ export function HarnessPanel() {
       <dl>
         <div>
           <dt>Pass Rate</dt>
-          <dd>{harnessSnapshot.summary.passRate}%</dd>
+          <dd>{harnessSnapshot.passRate}%</dd>
         </div>
         <div>
           <dt>Status</dt>
-          <dd>{harnessSnapshot.summary.status}</dd>
+          <dd>{harnessSnapshot.status}</dd>
         </div>
         <div>
           <dt>Passed</dt>
-          <dd>{harnessSnapshot.counts.passed}</dd>
+          <dd>{harnessSnapshot.passedCases}</dd>
         </div>
         <div>
           <dt>Warnings</dt>
-          <dd>{harnessSnapshot.counts.warnings}</dd>
+          <dd>{harnessSnapshot.warningCases}</dd>
         </div>
       </dl>
+
+      <h3>最近样本</h3>
+      <ul>
+        {recentHarnessCases.map((entry) => (
+          <li key={entry.id}>
+            <strong>{entry.id}</strong> · {entry.status} · warnings {entry.warnings} ·
+            diagnostics {entry.diagnostics}
+          </li>
+        ))}
+      </ul>
 
       <h3>当前阻塞</h3>
       <ul>

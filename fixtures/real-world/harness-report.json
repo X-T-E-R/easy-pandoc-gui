@@ -1,0 +1,505 @@
+{
+  "cases": [
+    {
+      "id": "test-pandoc-html",
+      "inputPath": "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\test_pandoc.md",
+      "outputPath": "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\tmp\\harness\\test_pandoc.html",
+      "mode": "html",
+      "before": {
+        "standardHits": 0,
+        "standardExtensionHits": 1,
+        "legacyCompatibleHits": 1,
+        "forbiddenHits": 0,
+        "ruleHits": [
+          {
+            "ruleId": "image-attributes",
+            "category": "standardExtension",
+            "count": 1
+          },
+          {
+            "ruleId": "math-tag",
+            "category": "legacyCompatible",
+            "count": 1
+          }
+        ]
+      },
+      "after": {
+        "standardHits": 0,
+        "standardExtensionHits": 1,
+        "legacyCompatibleHits": 0,
+        "forbiddenHits": 0,
+        "ruleHits": [
+          {
+            "ruleId": "image-attributes",
+            "category": "standardExtension",
+            "count": 1
+          }
+        ]
+      },
+      "warnings": [],
+      "diagnostics": [
+        {
+          "code": "math-render",
+          "severity": "warning",
+          "message": "Could not convert TeX math {C}_{d}={D}_{p}\\,\\mathrm{ln}\\left[\\frac{{E}_{max}}{{E}_{c}}\\right] , rendering as TeX"
+        },
+        {
+          "code": "math-render",
+          "severity": "warning",
+          "message": "Could not convert TeX math  {C}_{d}={D}_{p}\\,\\mathrm{ln}\\left[\\frac{E\\cdot t}{E\\cdot {t}_{0}}\\right] = {D}_{p}\\,\\mathrm{ln}\\left[\\frac{t}{{t}_{0}}\\right], rendering as TeX"
+        }
+      ],
+      "status": "warning"
+    },
+    {
+      "id": "master-draft-html",
+      "inputPath": "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\总稿_V2.1.md",
+      "outputPath": "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\tmp\\harness\\总稿_V2.1.html",
+      "mode": "html",
+      "before": {
+        "standardHits": 70,
+        "standardExtensionHits": 0,
+        "legacyCompatibleHits": 11,
+        "forbiddenHits": 9,
+        "ruleHits": [
+          {
+            "ruleId": "pandoc-citation",
+            "category": "standard",
+            "count": 70
+          },
+          {
+            "ruleId": "image-center-caption",
+            "category": "legacyCompatible",
+            "count": 10
+          },
+          {
+            "ruleId": "center-caption-block",
+            "category": "legacyCompatible",
+            "count": 1
+          },
+          {
+            "ruleId": "absolute-personal-path",
+            "category": "forbidden",
+            "count": 9
+          }
+        ]
+      },
+      "after": {
+        "standardHits": 70,
+        "standardExtensionHits": 0,
+        "legacyCompatibleHits": 1,
+        "forbiddenHits": 9,
+        "ruleHits": [
+          {
+            "ruleId": "pandoc-citation",
+            "category": "standard",
+            "count": 70
+          },
+          {
+            "ruleId": "center-caption-block",
+            "category": "legacyCompatible",
+            "count": 1
+          },
+          {
+            "ruleId": "absolute-personal-path",
+            "category": "forbidden",
+            "count": 9
+          }
+        ]
+      },
+      "warnings": [
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231010939471.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231010939471.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\Prompt_a_flatstyle_202512310548.jpeg"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012110948.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231012110948.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012406010.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231012406010.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231013140294.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231013140294.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231055741715.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231055741715.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231050749146.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231050749146.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231034400513.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231034400513.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231054728390.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231054728390.png"
+          ]
+        },
+        {
+          "rawPath": "attachments/ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\ad8782bf2aba35e518919926d91cf990_MD5.jpg"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "math-render",
+          "severity": "warning",
+          "message": "Could not convert TeX math C_d = D_p \\ln\\left(\\frac{E}{E_c}\\right), rendering as TeX"
+        },
+        {
+          "code": "math-render",
+          "severity": "warning",
+          "message": "Could not convert TeX math \\sin\\left(\\frac{2\\pi x}{L}\\right)\\cos\\left(\\frac{2\\pi y}{L}\\right) + \\sin\\left(\\frac{2\\pi y}{L}\\right)\\cos\\left(\\frac{2\\pi z}{L}\\right) + \\sin\\left(\\frac{2\\pi z}{L}\\right)\\cos\\left(\\frac{2\\pi x}{L}\\right) = C, rendering as TeX"
+        }
+      ],
+      "status": "warning"
+    },
+    {
+      "id": "master-draft-docx",
+      "inputPath": "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\总稿_V2.1.md",
+      "outputPath": "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\tmp\\harness\\总稿_V2.1.docx",
+      "mode": "docx",
+      "before": {
+        "standardHits": 70,
+        "standardExtensionHits": 0,
+        "legacyCompatibleHits": 11,
+        "forbiddenHits": 9,
+        "ruleHits": [
+          {
+            "ruleId": "pandoc-citation",
+            "category": "standard",
+            "count": 70
+          },
+          {
+            "ruleId": "image-center-caption",
+            "category": "legacyCompatible",
+            "count": 10
+          },
+          {
+            "ruleId": "center-caption-block",
+            "category": "legacyCompatible",
+            "count": 1
+          },
+          {
+            "ruleId": "absolute-personal-path",
+            "category": "forbidden",
+            "count": 9
+          }
+        ]
+      },
+      "after": {
+        "standardHits": 70,
+        "standardExtensionHits": 0,
+        "legacyCompatibleHits": 1,
+        "forbiddenHits": 9,
+        "ruleHits": [
+          {
+            "ruleId": "pandoc-citation",
+            "category": "standard",
+            "count": 70
+          },
+          {
+            "ruleId": "center-caption-block",
+            "category": "legacyCompatible",
+            "count": 1
+          },
+          {
+            "ruleId": "absolute-personal-path",
+            "category": "forbidden",
+            "count": 9
+          }
+        ]
+      },
+      "warnings": [
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231010939471.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231010939471.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231010939471.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\Prompt_a_flatstyle_202512310548.jpeg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\Prompt_a_flatstyle_202512310548.jpeg"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012110948.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231012110948.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231012110948.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012406010.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231012406010.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231012406010.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231013140294.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231013140294.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231013140294.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231055741715.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231055741715.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231055741715.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231050749146.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231050749146.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231050749146.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231034400513.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231034400513.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231034400513.png"
+          ]
+        },
+        {
+          "rawPath": "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231054728390.png",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\image-20251231054728390.png",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\image-20251231054728390.png"
+          ]
+        },
+        {
+          "rawPath": "attachments/ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+          "reason": "unresolved",
+          "attempted": [
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\attachments\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\assets\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\attachments\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\ad8782bf2aba35e518919926d91cf990_MD5.jpg",
+            "C:\\Users\\xxoy1\\OneDrive\\Program\\testPandoc\\testpandoc-modern\\assets\\ad8782bf2aba35e518919926d91cf990_MD5.jpg"
+          ]
+        }
+      ],
+      "diagnostics": [
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231010939471.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231010939471.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\Prompt_a_flatstyle_202512310548.jpeg: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\Prompt_a_flatstyle_202512310548.jpeg: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012110948.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012110948.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012406010.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231012406010.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231013140294.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231013140294.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231055741715.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231055741715.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231050749146.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231050749146.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231034400513.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231034400513.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231054728390.png: C:\\Users\\xxoy1\\OneDrive\\Obsidian\\XTer\\10_项目\\写论文\\开题报告\\改进\\assets\\image-20251231054728390.png: withBinaryFile: does not exist (No such file or directory) Replacing image with description."
+        },
+        {
+          "code": "missing-resource",
+          "severity": "warning",
+          "message": "Could not fetch resource attachments/ad8782bf2aba35e518919926d91cf990_MD5.jpg: replacing image with description"
+        }
+      ],
+      "status": "warning"
+    }
+  ],
+  "summary": {
+    "totalCases": 3,
+    "passedCases": 0,
+    "warningCases": 3,
+    "failedCases": 0,
+    "passRate": 0,
+    "status": "warning"
+  }
+}

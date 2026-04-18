@@ -23,5 +23,6 @@ describe('desktop app shell', () => {
     expect(
       screen.getAllByText('缺少 rsvg-convert，SVG 图片转 DOCX 仍有环境依赖').length
     ).toBeGreaterThan(0)
+    expect(screen.getAllByText('master-draft-docx').length).toBeGreaterThan(0)
   })
 })

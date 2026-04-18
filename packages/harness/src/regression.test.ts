@@ -4,7 +4,8 @@ import path from 'node:path'
 
 import { afterEach, describe, expect, test } from 'vitest'
 
-import { renderHarnessReportMarkdown, runHarnessManifest } from './regression'
+import { renderHarnessReportMarkdown } from './report'
+import { runHarnessManifest } from './regression'
 
 const tempDirs: string[] = []
 
@@ -51,6 +52,7 @@ describe('harness regression runner', () => {
     expect(result.summary.passedCases).toBe(1)
     expect(result.cases[0]?.before.legacyCompatibleHits).toBe(1)
     expect(result.cases[0]?.after.legacyCompatibleHits).toBe(0)
+    expect(result.cases[0]?.diagnostics).toHaveLength(0)
 
     const markdown = renderHarnessReportMarkdown(result)
     expect(markdown).toContain('legacy-html')

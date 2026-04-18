@@ -155,4 +155,56 @@ describe('cli mode', () => {
     expect(stdout.join('\n')).toContain('"totalCases": 1')
     expect(stdout.join('\n')).toContain('"passedCases": 1')
   })
+
+  test('harness command writes report artifacts when report dir is provided', async () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), 'testpandoc-cli-'))
+    tempDirs.push(dir)
+    const inputPath = path.join(dir, 'input.md')
+    const manifestPath = path.join(dir, 'manifest.json')
+    const outputPath = path.join(dir, 'output.html')
+    const reportDir = path.join(dir, 'reports')
+
+    writeFileSync(path.join(dir, 'a.png'), 'binary-placeholder', 'utf8')
+    writeFileSync(inputPath, '![img](a.png)\n<center>图 1 示例</center>', 'utf8')
+    writeFileSync(
+      manifestPath,
+      JSON.stringify(
+        {
+          cases: [
+            {
+              id: 'legacy-html',
+              input: inputPath,
+              output: outputPath,
+              mode: 'html'
+            }
+          ]
+        },
+        null,
+        2
+      ),
+      'utf8'
+    )
+
+    const exitCode = await runCli(
+      ['harness', '--manifest', manifestPath, '--report-dir', reportDir],
+      {
+        stdout: () => undefined,
+        stderr: () => undefined
+      },
+      {
+        runPandoc: (job) => {
+          writeFileSync(job.outputPath, readFileSync(job.inputPath, 'utf8'), 'utf8')
+          return Promise.resolve({ stdout: '', stderr: '' })
+        }
+      }
+    )
+
+    expect(exitCode).toBe(0)
+    expect(readFileSync(path.join(reportDir, 'harness-report.json'), 'utf8')).toContain(
+      '"legacy-html"'
+    )
+    expect(readFileSync(path.join(reportDir, 'harness-report.md'), 'utf8')).toContain(
+      '# Harness Report'
+    )
+  })
 })
