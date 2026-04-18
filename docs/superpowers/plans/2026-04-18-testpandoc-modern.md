@@ -591,9 +591,56 @@ git add docs/logs/EXECUTION_LOG.md docs/logs/2026-04-18-session.md scripts/updat
 git commit -m "docs: add execution log discipline"
 ```
 
+## Delivery Closeout Track
+
+当前仓库已经有可用 CLI 和基础骨架，但还没有完全达到“可交付产品”的标准。下一阶段按下面四条主线推进，并要求每条线都留下真实验证证据、执行日志和 Git 记录。
+
+### Phase 1: Canonicalization And Resource Resolution
+
+- 目标：把旧稿件里的个人绝对路径、附件相对路径和导出时的资源查找统一收口到一条可验证的 canonicalization pipeline。
+- 范围：
+  - 新增资源解析模块，支持从文档目录、项目根目录、`assets/`、`attachments/` 自动查找图片。
+  - `transform` 和 `export` 共用同一套 canonicalization 入口，不再只做字符串级 legacy rewrite。
+  - 对无法解析的路径给出结构化 warning，而不是只依赖 Pandoc stderr。
+- 验收：
+  - 真实 `总稿_V2.1.md` 中可自动修复的绝对图片路径全部转成当前工程可用路径。
+  - 新增针对绝对路径回收和输出相对路径的单测，并完成 red-green 记录。
+
+### Phase 2: Harness Manifest And Regression Reports
+
+- 目标：让仓库可以直接对真实 Markdown 样本批量跑 inspect、canonicalize、export，并产出可追踪报告。
+- 范围：
+  - `packages/harness` 增加 manifest schema、批量运行器、Markdown/JSON 报告渲染。
+  - `apps/cli` 增加 `harness` 子命令。
+  - 仓库内加入可复用 manifest，并允许引用原目录下的真实样本。
+- 验收：
+  - `pnpm cli -- harness --manifest <file>` 能跑通至少 2 个真实样本。
+  - 输出 summary、warning 明细、导出产物路径和 pass rate。
+
+### Phase 3: Desktop Workbench
+
+- 目标：把桌面端从静态骨架推进到真正可承接产品信息流的工作台。
+- 范围：
+  - 规则矩阵直接消费 `formatRegistry`，不是写死说明文。
+  - 执行日志面板展示当前交付阶段、关键风险和最近验证链。
+  - Harness 面板展示 manifest、最近运行摘要和剩余阻塞项。
+- 验收：
+  - 桌面端测试覆盖工作台主要信息块。
+  - UI 不再只是占位文案，能承载实际产品状态。
+
+### Phase 4: Packaging, Observability, Release Readiness
+
+- 目标：收口到可发布状态，而不是仅能本地开发。
+- 范围：
+  - 补发布检查清单、环境依赖说明、SVG 转换器策略、Pandoc 依赖说明。
+  - 完整梳理 execution log、README、标准矩阵、harness 入口。
+  - 后续接入 Tauri 命令层、打包和安装说明。
+- 验收：
+  - README 能指导新机器完成安装、运行、回归和导出。
+  - 仓库内有明确的“已解决 / 未解决 / 可交付边界”说明。
+
 ## Self-Review
 
 - Spec coverage: covers repo bootstrap, standards, registry, harness, observability, compatibility, Pandoc runner, desktop shell, CI, and execution logs.
 - Placeholder scan: no `TODO`/`TBD` placeholders remain in task bodies.
 - Type consistency: `formatRegistry`, `transformLegacyMarkdown`, `buildPandocArgs`, and `eventEnvelopeSchema` are used consistently across tasks.
-

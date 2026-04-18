@@ -27,6 +27,9 @@
 - 以 TDD 新增 CLI 模式、Markdown 扫描器和真实数据调试入口
 - 基于真实数据补出 `center-caption-block` 扫描规则和 `math-tag` 自动改写
 - 以 TDD 新增真实 `pandoc` 导出链路，CLI 现已支持 `inspect / transform / export`
+- 以 TDD 新增 canonicalization pipeline，`transform / export` 现共用 legacy rewrite 与资源路径规范化
+- 新增 manifest 驱动的 harness runner，CLI 现已支持 `harness --manifest ...`
+- 新增真实样本 manifest，并把桌面端从占位页升级为交付工作台
 
 ## Verification
 
@@ -47,13 +50,23 @@
   - `test_pandoc.md -> test_pandoc.html` 成功
   - `test_pandoc.md -> test_pandoc.docx` 成功，但 SVG 图片转换警告提示缺少 `rsvg-convert`
   - `总稿_V2.1.md -> 总稿_V2.1.html` 成功，但未提供 bibliography 时 citation 保持原样显示
+- 当前门禁验证：
+  - `pnpm test` 通过，当前 12 个测试文件、22 条测试全部通过
+  - `pnpm typecheck` 通过
+  - `pnpm lint` 通过
+  - `pnpm build` 通过
+- 本轮真实样本验证：
+  - `pnpm cli -- transform --input ../总稿_V2.1.md --output tmp/总稿_V2.1.canonical.md` 成功
+  - `pnpm cli -- harness --manifest fixtures/real-world/manifest.json --json` 成功
+  - harness summary: `totalCases=3`、`warningCases=3`、`failedCases=0`
+  - `test_pandoc.md` 经 canonicalization 后 `legacyCompatibleHits: 1 -> 0`
+  - `总稿_V2.1.md` 经 canonicalization 后 `legacyCompatibleHits: 11 -> 1`，剩余 `forbiddenHits: 9`
+  - 当前 unresolved asset 共 10 条，其中 9 条来自旧 Obsidian 绝对路径，1 条来自缺失的 `attachments/...jpg`
 
 ## Next Actions
 
-- 扩展 compatibility pipeline，继续覆盖旧版魔改规则
-- 引入 Pandoc runner、配置 schema 和资源路径策略
-- 为 harness 增加 fixtures、报告和 docx XML 断言能力
-- 把桌面壳从静态入口扩展到规则矩阵、日志流和 harness 运行入口
-- 开始引入真实 legacy fixtures，并把旧项目样例迁入 harness 回归
-- 继续处理剩余 9 条绝对路径图片和 1 条独立中心题注块
-- 引入 bibliography / reference-doc 配置落地和更完整的导出配置面板
+- 继续处理剩余 9 条缺失原图和 1 条独立中心表题注
+- 把 Pandoc stderr 分类成结构化 warning，而不是只保留原始文本
+- 为 harness 增加 Markdown / JSON 报告落盘和历史对比能力
+- 把桌面工作台继续接到真实执行入口，而不是只展示当前状态
+- 补 Tauri 命令层、环境依赖检查和打包说明

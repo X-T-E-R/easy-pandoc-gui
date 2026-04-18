@@ -9,8 +9,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@testpandoc/core": "workspace:*",
+    "@testpandoc/harness": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }
 }
-

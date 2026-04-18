@@ -14,4 +14,14 @@ describe('desktop app shell', () => {
     expect(screen.getByRole('button', { name: '执行日志' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Harness' })).toBeInTheDocument()
   })
+
+  test('shows live product delivery data instead of placeholder copy', () => {
+    render(<App />)
+
+    expect(screen.getAllByText('absolute-personal-path').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Phase 1').length).toBeGreaterThan(0)
+    expect(
+      screen.getAllByText('缺少 rsvg-convert，SVG 图片转 DOCX 仍有环境依赖').length
+    ).toBeGreaterThan(0)
+  })
 })

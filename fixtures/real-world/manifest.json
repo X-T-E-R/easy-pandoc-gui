@@ -1,0 +1,26 @@
+{
+  "cases": [
+    {
+      "id": "test-pandoc-html",
+      "input": "../test_pandoc.md",
+      "output": "tmp/harness/test_pandoc.html",
+      "mode": "html"
+    },
+    {
+      "id": "master-draft-html",
+      "input": "../总稿_V2.1.md",
+      "output": "tmp/harness/总稿_V2.1.html",
+      "mode": "html",
+      "resourcePaths": [".."]
+    },
+    {
+      "id": "master-draft-docx",
+      "input": "../总稿_V2.1.md",
+      "output": "tmp/harness/总稿_V2.1.docx",
+      "mode": "docx",
+      "referenceDoc": "../custom-reference.docx",
+      "sectionTitle": "参考文献",
+      "resourcePaths": [".."]
+    }
+  ]
+}

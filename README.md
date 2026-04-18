@@ -28,4 +28,20 @@
 pnpm cli -- inspect --input ../总稿_V2.1.md --json
 pnpm cli -- transform --input ../test_pandoc.md --output tmp/test_pandoc.transformed.md
 pnpm cli -- export --input ../test_pandoc.md --output tmp/exports/test_pandoc.html --to html
+pnpm cli -- harness --manifest fixtures/real-world/manifest.json --json
 ```
+
+## Delivery Track
+
+- `transform` 和 `export` 现在共用 canonicalization pipeline，会先处理 legacy caption / `\tag{}`，再尝试收口本地资源路径。
+- `harness` 命令支持基于 manifest 批量跑真实样本，产出 summary、warning 和导出产物。
+- 桌面端当前已经改成交付工作台，展示共享规则矩阵、收口阶段和 harness 摘要；真正的 Tauri 命令层和文件交互还在后续阶段。
+
+## Real Samples
+
+- 默认 manifest: `fixtures/real-world/manifest.json`
+- 默认输出目录: `tmp/harness/`
+- 当前已知阻塞：
+  - `总稿_V2.1.md` 仍有多条原始绝对图片路径对应源文件缺失
+  - 仍缺 `rsvg-convert`，SVG 到 DOCX 的图像转换存在环境依赖
+  - 仍有 1 条独立 `<center>` 表题注未结构化收口

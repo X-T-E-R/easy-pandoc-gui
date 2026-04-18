@@ -71,6 +71,9 @@ importers:
       '@testpandoc/core':
         specifier: workspace:*
         version: link:../../packages/core
+      '@testpandoc/harness':
+        specifier: workspace:*
+        version: link:../../packages/harness
     devDependencies:
       tsx:
         specifier: ^4.20.6
@@ -78,6 +81,12 @@ importers:
 
   apps/desktop:
     dependencies:
+      '@testpandoc/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@testpandoc/harness':
+        specifier: workspace:*
+        version: link:../../packages/harness
       react:
         specifier: ^19.2.0
         version: 19.2.5
@@ -91,7 +100,11 @@ importers:
         specifier: ^4.1.12
         version: 4.3.6
 
-  packages/harness: {}
+  packages/harness:
+    dependencies:
+      '@testpandoc/core':
+        specifier: workspace:*
+        version: link:../core
 
 packages:
 

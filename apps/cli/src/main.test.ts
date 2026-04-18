@@ -108,4 +108,51 @@ describe('cli mode', () => {
     expect(calls).toHaveLength(1)
     expect(calls[0]).toContain('$$a = b$$ {#eq:2}')
   })
+
+  test('harness command runs a manifest and prints json summary', async () => {
+    const dir = mkdtempSync(path.join(os.tmpdir(), 'testpandoc-cli-'))
+    tempDirs.push(dir)
+    const inputPath = path.join(dir, 'input.md')
+    const manifestPath = path.join(dir, 'manifest.json')
+    const outputPath = path.join(dir, 'output.html')
+    writeFileSync(path.join(dir, 'a.png'), 'binary-placeholder', 'utf8')
+    writeFileSync(inputPath, '![img](a.png)\n<center>图 1 示例</center>', 'utf8')
+    writeFileSync(
+      manifestPath,
+      JSON.stringify(
+        {
+          cases: [
+            {
+              id: 'legacy-html',
+              input: inputPath,
+              output: outputPath,
+              mode: 'html'
+            }
+          ]
+        },
+        null,
+        2
+      ),
+      'utf8'
+    )
+
+    const stdout: string[] = []
+    const exitCode = await runCli(
+      ['harness', '--manifest', manifestPath, '--json'],
+      {
+        stdout: (line) => stdout.push(line),
+        stderr: () => undefined
+      },
+      {
+        runPandoc: (job) => {
+          writeFileSync(job.outputPath, readFileSync(job.inputPath, 'utf8'), 'utf8')
+          return Promise.resolve({ stdout: '', stderr: '' })
+        }
+      }
+    )
+
+    expect(exitCode).toBe(0)
+    expect(stdout.join('\n')).toContain('"totalCases": 1')
+    expect(stdout.join('\n')).toContain('"passedCases": 1')
+  })
 })

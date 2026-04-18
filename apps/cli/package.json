@@ -13,10 +13,10 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@testpandoc/core": "workspace:*"
+    "@testpandoc/core": "workspace:*",
+    "@testpandoc/harness": "workspace:*"
   },
   "devDependencies": {
     "tsx": "^4.20.6"
   }
 }
-

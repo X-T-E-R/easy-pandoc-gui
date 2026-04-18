@@ -1,17 +1,21 @@
 #!/usr/bin/env node
 
-import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import os from 'node:os'
 import { pathToFileURL } from 'node:url'
 import { parseArgs } from 'node:util'
 
 import {
   analyzeMarkdownUsage,
+  canonicalizeMarkdown,
   runPandocJob,
-  type BuildPandocArgsInput,
-  transformLegacyMarkdown
+  type BuildPandocArgsInput
 } from '@testpandoc/core'
+import {
+  parseHarnessManifest,
+  renderHarnessReportMarkdown,
+  runHarnessManifest
+} from '@testpandoc/harness'
 
 export interface CliIo {
   stdout: (line: string) => void
@@ -49,6 +53,7 @@ export async function runCli(
     options: {
       input: { type: 'string' },
       output: { type: 'string' },
+      manifest: { type: 'string' },
       json: { type: 'boolean', default: false },
       to: { type: 'string' },
       bibliography: { type: 'string' },
@@ -62,6 +67,28 @@ export async function runCli(
   })
 
   const inputPath = values.input ? path.resolve(baseDir, values.input) : ''
+
+  if (command === 'harness') {
+    if (!values.manifest) {
+      io.stderr('harness 命令缺少 --manifest 参数')
+      return 1
+    }
+
+    const manifestPath = path.resolve(baseDir, values.manifest)
+    const manifest = parseHarnessManifest(JSON.parse(await readFile(manifestPath, 'utf8')))
+    const result = await runHarnessManifest(manifest, {
+      cwd: baseDir,
+      runPandoc: deps.runPandoc
+    })
+
+    if (values.json) {
+      io.stdout(JSON.stringify(result, null, 2))
+      return 0
+    }
+
+    io.stdout(renderHarnessReportMarkdown(result))
+    return 0
+  }
 
   if (!inputPath) {
     io.stderr('缺少 --input 参数')
@@ -99,17 +126,25 @@ export async function runCli(
   }
 
   if (command === 'transform') {
-    const output = transformLegacyMarkdown(source)
+    const outputPath = values.output ? path.resolve(baseDir, values.output) : undefined
+    const canonical = canonicalizeMarkdown({
+      source,
+      documentPath: inputPath,
+      rewriteBaseDir: outputPath ? path.dirname(outputPath) : path.dirname(inputPath),
+      projectRoot: baseDir
+    })
 
-    if (values.output) {
-      const outputPath = path.resolve(baseDir, values.output)
+    if (outputPath) {
       await mkdir(path.dirname(outputPath), { recursive: true })
-      await writeFile(outputPath, output, 'utf8')
+      await writeFile(outputPath, canonical.markdown, 'utf8')
+      for (const warning of canonical.warnings) {
+        io.stderr(`unresolved asset: ${warning.rawPath}`)
+      }
       io.stdout(`wrote: ${outputPath}`)
       return 0
     }
 
-    io.stdout(output)
+    io.stdout(canonical.markdown)
     return 0
   }
 
@@ -120,11 +155,19 @@ export async function runCli(
     }
 
     const mode = values.to === 'docx' ? 'docx' : 'html'
-    const transformed = transformLegacyMarkdown(source)
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'testpandoc-export-'))
-    const tempInputPath = path.join(tempDir, `${path.parse(inputPath).name}.canonical.md`)
+    const canonical = canonicalizeMarkdown({
+      source,
+      documentPath: inputPath,
+      rewriteBaseDir: path.dirname(inputPath),
+      projectRoot: baseDir,
+      extraSearchRoots: values['resource-path']?.map((item) => path.resolve(baseDir, item))
+    })
+    const tempInputPath = path.join(
+      path.dirname(inputPath),
+      `.testpandoc-export-${Date.now()}-${path.parse(inputPath).name}.canonical.md`
+    )
 
-    await writeFile(tempInputPath, transformed, 'utf8')
+    await writeFile(tempInputPath, canonical.markdown, 'utf8')
 
     try {
       const result = await deps.runPandoc({
@@ -139,19 +182,23 @@ export async function runCli(
           : undefined,
         resourcePaths: [
           path.dirname(inputPath),
+          baseDir,
           ...(values['resource-path']?.map((item) => path.resolve(baseDir, item)) ?? [])
         ],
         referenceSectionTitle: values['section-title'],
         mode
       })
 
+      for (const warning of canonical.warnings) {
+        io.stderr(`unresolved asset: ${warning.rawPath}`)
+      }
       if (result.stderr) {
         io.stderr(result.stderr)
       }
       io.stdout(`exported: ${path.resolve(baseDir, values.output)}`)
       return 0
     } finally {
-      await rm(tempDir, { recursive: true, force: true })
+      await rm(tempInputPath, { force: true })
     }
   }
 
@@ -166,6 +213,7 @@ function printHelp(io: CliIo): void {
   io.stdout('  inspect --input <file> [--json]')
   io.stdout('  transform --input <file> [--output <file>]')
   io.stdout('  export --input <file> --output <file> [--to html|docx]')
+  io.stdout('  harness --manifest <file> [--json]')
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
