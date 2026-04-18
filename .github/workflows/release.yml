@@ -48,6 +48,10 @@ jobs:
         with:
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
+      - name: Install WiX Toolset
+        if: matrix.platform == 'windows-latest'
+        run: choco install wixtoolset --no-progress -y
+
       - name: Cache Rust
         uses: swatinem/rust-cache@v2
         with:
@@ -86,6 +90,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          retryAttempts: 1
           projectPath: apps/desktop
           tagName: v__VERSION__
           releaseName: Easy Pandoc GUI v__VERSION__
