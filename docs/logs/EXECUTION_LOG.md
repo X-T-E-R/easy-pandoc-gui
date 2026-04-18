@@ -106,6 +106,7 @@
   - 已保留 `release.yml`：每次 push `v*.*.*` tag 自动发布 GitHub Release 资产
   - 已修复 GitHub Actions 的 pnpm 版本冲突：去掉 workflow 里重复的 `version: 10`，统一只读 `package.json -> packageManager`
   - 已加固 Windows GitHub Actions 打包：显式安装 WiX Toolset，并为 `tauri-action` 增加一次重试
+  - 已修正 `ci.yml` 中 WiX 安装步骤的 job 归属：从 Linux `quality` 挪回 Windows `windows-package`
   - `pnpm --filter @testpandoc/desktop tauri build` 通过
   - release 产物：`apps/desktop/src-tauri/target/release/bundle/msi/Easy Pandoc GUI_0.1.0_x64_en-US.msi`
   - release 产物：`apps/desktop/src-tauri/target/release/bundle/nsis/Easy Pandoc GUI_0.1.0_x64-setup.exe`

@@ -34,9 +34,6 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install WiX Toolset
-        run: choco install wixtoolset --no-progress -y
-
       - name: Cache Rust
         uses: swatinem/rust-cache@v2
         with:
@@ -98,6 +95,9 @@ jobs:
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
+
+      - name: Install WiX Toolset
+        run: choco install wixtoolset --no-progress -y
 
       - name: Cache Rust
         uses: swatinem/rust-cache@v2
