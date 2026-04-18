@@ -2,7 +2,7 @@ import { currentBlockers, harnessSnapshot, recentHarnessCases } from '../../prod
 
 export function HarnessPanel() {
   return (
-    <article>
+    <article className="panel">
       <h2>Harness</h2>
       <p>这里展示最近一轮回归摘要和当前阻塞，不再只是占位说明。</p>
 

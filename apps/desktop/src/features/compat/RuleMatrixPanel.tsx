@@ -2,7 +2,7 @@ import { ruleSections } from '../../product-state'
 
 export function RuleMatrixPanel() {
   return (
-    <article>
+    <article className="panel">
       <h2>规则矩阵</h2>
       <p>标准格式、标准扩展、兼容魔改和禁止项直接来自共享 registry。</p>
 

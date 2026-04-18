@@ -34,6 +34,11 @@
 - 新增 harness 报告落盘能力，CLI 现已支持 `harness --report-dir ...`
 - 桌面端现直接消费真实 `fixtures/real-world/harness-report.json`，不再只靠手写 snapshot
 - 新增 `doctor` 环境检查入口，CLI 现已支持 `doctor --json`
+- 把 `apps/desktop` 升级成真实 `Vite + Tauri 2` 应用，新增 `src-tauri`、能力配置和桌面端构建脚本
+- 新增桌面端工作台：可选择 Markdown、读取真实文件、展示 inspect/canonical 统计、跑 doctor、导出 HTML / DOCX
+- 新增 Rust 命令层，负责 `load_document / export_document / run_doctor`
+- 新增桌面端本地配置持久化、导出状态展示和导出文件打开入口
+- 新增 Rust 单测，覆盖 legacy rewrite、diagnostics 解析和资源解析
 
 ## Verification
 
@@ -72,11 +77,21 @@
   - 已生成并更新：
     - `fixtures/real-world/harness-report.json`
     - `fixtures/real-world/harness-report.md`
+- 桌面端真实化验证：
+  - `pnpm vitest run apps/desktop/src/App.test.tsx` 通过
+  - `pnpm --filter @testpandoc/desktop typecheck` 通过
+  - `pnpm --filter @testpandoc/desktop build` 通过
+  - `cargo check` 通过
+  - `cargo test` 通过，当前 Rust 测试 `3/3` 通过
+  - `pnpm --filter @testpandoc/desktop tauri build --debug --no-bundle` 通过
+  - 产物：`apps/desktop/src-tauri/target/debug/testpandoc_desktop.exe`
+  - `pnpm cli -- harness --manifest fixtures/real-world/manifest.json --report-dir fixtures/real-world` 再次通过，当前 `warningCases=3`、`failedCases=0`
+  - `pnpm cli -- doctor --json` 再次通过，当前 `pandoc=ok (3.8.3)`、`rsvg-convert=missing`
 
 ## Next Actions
 
 - 继续处理剩余 9 条缺失原图和 1 条独立中心表题注
 - 把 Pandoc stderr 分类成结构化 warning，而不是只保留原始文本
 - 为 harness 增加 Markdown / JSON 报告落盘和历史对比能力
-- 把桌面工作台继续接到真实执行入口，而不是只展示当前状态
-- 补 Tauri 命令层、环境依赖检查和打包说明
+- 继续处理剩余 9 条缺失原图和 1 条独立中心表题注
+- 如果要交 Windows 安装包，再补 installer 工具链和签名/打包说明

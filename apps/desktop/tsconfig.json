@@ -7,6 +7,5 @@
       "@testpandoc/harness": ["../../packages/harness/src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"]
 }
-

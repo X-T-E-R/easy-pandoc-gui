@@ -2,7 +2,7 @@ import { deliveryPhases } from '../../product-state'
 
 export function LogPanel() {
   return (
-    <article>
+    <article className="panel">
       <h2>执行日志</h2>
       <p>当前展示的是交付收口阶段，后续会接真实 execution log 流。</p>
 

@@ -26,28 +26,28 @@ export const ruleSections = [
 
 export const deliveryPhases = [
   {
-    id: 'Phase 1',
-    title: 'Canonicalization And Resource Resolution',
+    id: 'Track A',
+    title: 'Real Desktop Productization',
     status: 'in-progress',
-    description: '统一 legacy rewrite、资源定位和 unresolved asset warning。'
+    description: '当前正在把桌面端升级成真正的 Tauri 2 产品壳，并接入真实文件/导出链。'
   },
   {
-    id: 'Phase 2',
-    title: 'Harness Manifest And Regression Reports',
+    id: 'Track B',
+    title: 'Backend Command Layer And Persistence',
     status: 'in-progress',
-    description: 'CLI 已接入 manifest 驱动 harness，下一步扩到真实样本报告。'
+    description: 'Rust 命令层负责读文件、跑 Pandoc、做 doctor；最近配置会持久化保存。'
   },
   {
-    id: 'Phase 3',
-    title: 'Desktop Workbench',
+    id: 'Track C',
+    title: 'Product Workflow, Diagnostics, And Observability',
     status: 'in-progress',
-    description: '桌面端开始直接承载规则矩阵、交付阶段和 harness 摘要。'
+    description: 'UI 正在直接展示 inspect、canonical warning、export diagnostics 和环境阻塞。'
   },
   {
-    id: 'Phase 4',
-    title: 'Packaging, Observability, Release Readiness',
+    id: 'Track D',
+    title: 'Release Readiness And Delivery Boundary',
     status: 'pending',
-    description: '后续收口发布清单、环境依赖和打包交付说明。'
+    description: '最后收 README、打包说明、交付边界和已知风险。'
   }
 ] as const
 

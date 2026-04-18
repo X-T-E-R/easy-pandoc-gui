@@ -591,53 +591,64 @@ git add docs/logs/EXECUTION_LOG.md docs/logs/2026-04-18-session.md scripts/updat
 git commit -m "docs: add execution log discipline"
 ```
 
-## Delivery Closeout Track
+## Final Delivery Closeout Plan
 
-当前仓库已经有可用 CLI 和基础骨架，但还没有完全达到“可交付产品”的标准。下一阶段按下面四条主线推进，并要求每条线都留下真实验证证据、执行日志和 Git 记录。
+当前仓库已经有可用 CLI、harness 和交付工作台，但还差最后一段从“工程骨架”到“可交付产品”的收口。本轮按下面四条主线一次性推进，并要求每条线都留下真实验证证据、执行日志和 Git 记录。
 
-### Phase 1: Canonicalization And Resource Resolution
+### Track A: Real Desktop Productization
 
-- 目标：把旧稿件里的个人绝对路径、附件相对路径和导出时的资源查找统一收口到一条可验证的 canonicalization pipeline。
+- 目标：把 `apps/desktop` 从纯 React 状态页升级为真正可运行、可打包、可验证的 Tauri 2 桌面应用。
 - 范围：
-  - 新增资源解析模块，支持从文档目录、项目根目录、`assets/`、`attachments/` 自动查找图片。
-  - `transform` 和 `export` 共用同一套 canonicalization 入口，不再只做字符串级 legacy rewrite。
-  - 对无法解析的路径给出结构化 warning，而不是只依赖 Pandoc stderr。
+  - 补 `Vite + Tauri 2` 前端/后端骨架、`src-tauri`、能力配置、开发和构建脚本。
+  - 建立桌面端真实工作流：选 Markdown、读文件、做 inspect、生成 canonical preview、导出 HTML/DOCX、查看 doctor 结果。
+  - 保留现有规则矩阵、执行日志、harness 摘要，把它们并入真实工作台而不是单独的演示面板。
 - 验收：
-  - 真实 `总稿_V2.1.md` 中可自动修复的绝对图片路径全部转成当前工程可用路径。
-  - 新增针对绝对路径回收和输出相对路径的单测，并完成 red-green 记录。
+  - `pnpm --filter @testpandoc/desktop build` 通过。
+  - `cargo check` 在 `apps/desktop/src-tauri` 下通过。
+  - 桌面端前端测试覆盖主要交互状态，不再只是静态文案。
 
-### Phase 2: Harness Manifest And Regression Reports
+### Track B: Backend Command Layer And Persistence
 
-- 目标：让仓库可以直接对真实 Markdown 样本批量跑 inspect、canonicalize、export，并产出可追踪报告。
+- 目标：补齐桌面端后端命令层、配置持久化和本地执行能力，避免 UI 只停留在展示层。
 - 范围：
-  - `packages/harness` 增加 manifest schema、批量运行器、Markdown/JSON 报告渲染。
-  - `apps/cli` 增加 `harness` 子命令。
-  - 仓库内加入可复用 manifest，并允许引用原目录下的真实样本。
+  - Rust 命令层负责文件读取、Pandoc 导出、环境检查。
+  - 前端通过 `invoke` 调 Rust，统一读取/导出/doctor 入口。
+  - 前端本地持久化最近使用文件、bibliography、reference-doc、resource roots、Pandoc path 和最近导出结果。
 - 验收：
-  - `pnpm cli -- harness --manifest <file>` 能跑通至少 2 个真实样本。
-  - 输出 summary、warning 明细、导出产物路径和 pass rate。
+  - 关闭应用后重新启动，最近一次的配置与状态可恢复。
+  - 单次导出流程可在桌面端完整走通，不依赖命令行。
+  - 至少 1 条桌面端测试覆盖配置恢复与命令调用。
 
-### Phase 3: Desktop Workbench
+### Track C: Product Workflow, Diagnostics, And Observability
 
-- 目标：把桌面端从静态骨架推进到真正可承接产品信息流的工作台。
+- 目标：把真实文档处理链路收成可解释、可追踪的产品行为。
 - 范围：
-  - 规则矩阵直接消费 `formatRegistry`，不是写死说明文。
-  - 执行日志面板展示当前交付阶段、关键风险和最近验证链。
-  - Harness 面板展示 manifest、最近运行摘要和剩余阻塞项。
+  - 导入文件后立即展示 `inspect` 指标、legacy / forbidden 命中、canonicalization warning、导出诊断。
+  - 把 Pandoc stderr 和 unresolved asset warning 收口为统一 diagnostics 列表。
+  - 在执行日志中补本轮决策、实现、验证和剩余风险；在 UI 中直接展示当前环境状态和已知阻塞。
 - 验收：
-  - 桌面端测试覆盖工作台主要信息块。
-  - UI 不再只是占位文案，能承载实际产品状态。
+  - 桌面端至少能直观看到输入、canonical 输出、导出结果和 diagnostics。
+  - README 和日志都能对应到同一套执行链，不出现“文档写了但产品里看不到”的断层。
 
-### Phase 4: Packaging, Observability, Release Readiness
+### Track D: Release Readiness And Delivery Boundary
 
-- 目标：收口到可发布状态，而不是仅能本地开发。
+- 目标：明确发布方法、依赖边界、已知缺口和下一阶段路线，让仓库达到可交付而不是“作者本人知道怎么跑”。
 - 范围：
-  - 补发布检查清单、环境依赖说明、SVG 转换器策略、Pandoc 依赖说明。
-  - 完整梳理 execution log、README、标准矩阵、harness 入口。
-  - 后续接入 Tauri 命令层、打包和安装说明。
+  - README 增加安装、开发、回归、桌面端运行、打包和依赖诊断说明。
+  - 增加发布边界文档，明确已解决项、环境依赖项、真实样本验证结果、未闭合问题。
+  - 把 harness 报告、doctor 结果和当前剩余风险收进执行日志。
 - 验收：
-  - README 能指导新机器完成安装、运行、回归和导出。
-  - 仓库内有明确的“已解决 / 未解决 / 可交付边界”说明。
+  - 新机器按照 README 能完成依赖安装、CLI 回归、桌面端构建。
+  - 仓库内有明确的“当前可交付边界”和“未解决风险”说明。
+
+## Execution Order
+
+- [x] 1. 更新计划、README 和执行日志，冻结本轮验收目标与收口顺序。
+- [x] 2. 升级 `apps/desktop` 为 `Vite + Tauri 2`，补脚本、配置和测试基线。
+- [x] 3. 实现 Rust 命令层和前端 `invoke` 封装，接入读取、导出、doctor、配置持久化。
+- [x] 4. 改造桌面工作台，使其能真实处理 Markdown 样本并显示 diagnostics。
+- [x] 5. 用真实样本完成桌面端与 CLI 的交叉验证，刷新 harness 报告、执行日志和交付说明。
+- [x] 6. 跑最终门禁：`pnpm test`、`pnpm typecheck`、`pnpm lint`、`pnpm build`、`cargo check`。
 
 ## Self-Review
 
