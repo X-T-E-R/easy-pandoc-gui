@@ -113,3 +113,54 @@ jobs:
 
       - name: Desktop Tauri smoke build
         run: pnpm --filter @testpandoc/desktop tauri build --debug --no-bundle
+
+  windows-package:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      - quality
+      - windows-tauri-smoke
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Rust
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: ./apps/desktop/src-tauri -> target
+          cache-on-failure: true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check versions
+        run: pnpm version:check
+
+      - name: Build Windows desktop bundles
+        run: pnpm --filter @testpandoc/desktop tauri build
+
+      - name: Upload Windows desktop artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: easy-pandoc-gui-windows-${{ github.sha }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            apps/desktop/src-tauri/target/release/easy_pandoc_gui.exe
+            apps/desktop/src-tauri/target/release/bundle/msi/*.msi
+            apps/desktop/src-tauri/target/release/bundle/nsis/*.exe

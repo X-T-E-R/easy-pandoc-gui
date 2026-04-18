@@ -2,7 +2,12 @@
 
 ## Scope
 
-This guide describes the tag-driven release flow for `easy-pandoc-gui`.
+This guide describes both packaging paths for `easy-pandoc-gui`: continuous Windows packaging on `main`, and tag-driven GitHub Releases.
+
+## Packaging Modes
+
+- `main` branch packaging: every push to `main` runs `ci.yml`, builds the Windows desktop bundles, and uploads them as workflow artifacts.
+- Versioned release packaging: every pushed `vX.Y.Z` tag runs `release.yml`, builds the configured platform assets, and publishes them to GitHub Release.
 
 ## Release Preconditions
 
@@ -44,9 +49,16 @@ git push origin vX.Y.Z
 3. GitHub Actions automatically runs `.github/workflows/release.yml`.
 4. The workflow builds release artifacts for the configured platforms and publishes them to the GitHub Release matching the tag.
 
+## Get The Latest Windows Package From `main`
+
+1. Push your changes into `main`.
+2. Open the latest `ci` workflow run for `main`.
+3. Download the uploaded `easy-pandoc-gui-windows-*` artifact.
+4. The artifact contains the unpacked desktop executable plus the generated `.msi` and NSIS installer.
+
 ## Workflow Notes
 
-- `ci.yml` is the regular quality gate.
+- `ci.yml` is the regular quality gate and also uploads Windows packaging artifacts on `main`.
 - `release.yml` is triggered by `v*.*.*` tags.
 - Release notes are generated from `.github/release.yml`.
 - Release builds are currently unsigned by default.

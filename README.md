@@ -16,7 +16,7 @@ This project grew out of a larger `testPandoc` rebuild effort. The public-facing
 - Export HTML and DOCX through Pandoc from both CLI and desktop workflows.
 - Surface unresolved assets, Pandoc warnings, and environment checks in one place.
 - Run manifest-driven regression checks against real samples.
-- Build installers from tagged releases through GitHub Actions.
+- Build Windows artifacts on `main` and publish versioned installers through GitHub Actions.
 
 ## Repository Layout
 
@@ -89,14 +89,21 @@ pnpm cli -- doctor --json
 
 The repository now ships with two GitHub Actions workflows:
 
-- `ci.yml`: lint, typecheck, test, build, Rust checks, and Windows Tauri smoke build.
+- `ci.yml`: lint, typecheck, test, build, Rust checks, Windows Tauri smoke build, and a Windows packaged build uploaded as workflow artifacts on every push to `main`.
 - `release.yml`: on every pushed `v*.*.*` tag, build platform artifacts and publish release assets automatically.
 
 Release notes are generated from `.github/release.yml`.
 
+If you only need the latest Windows package from the default branch, open the latest `ci` run on `main` and download the uploaded artifact bundle there.
+
 ## Versioned Installer Flow
 
-The installer workflow is tag-driven:
+The repository now has two packaging paths:
+
+1. Push to `main`: GitHub Actions builds a Windows package and uploads it as a workflow artifact.
+2. Push a version tag: GitHub Actions builds release assets and publishes them to GitHub Release.
+
+The versioned installer flow is tag-driven:
 
 1. Make sure the versions in `package.json`, `apps/desktop/package.json`, and `apps/desktop/src-tauri/tauri.conf.json` match.
 2. Run `pnpm version:check`.

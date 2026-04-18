@@ -2,7 +2,12 @@
 
 ## 适用范围
 
-这份文档说明 `easy-pandoc-gui` 的 tag 驱动发布流程。
+这份文档说明 `easy-pandoc-gui` 现在的两条打包路径：`main` 持续打 Windows 包，以及版本 tag 驱动的 GitHub Release。
+
+## 打包模式
+
+- `main` 分支打包：每次 push 到 `main` 都会触发 `ci.yml`，构建 Windows 桌面安装包，并上传成 workflow artifact。
+- 版本发布打包：每次 push `vX.Y.Z` tag 都会触发 `release.yml`，构建配置好的平台产物，并发布到 GitHub Release。
 
 ## 发布前提
 
@@ -44,9 +49,16 @@ git push origin vX.Y.Z
 3. GitHub Actions 会自动触发 `.github/workflows/release.yml`。
 4. workflow 会为配置好的平台构建 release 产物，并自动上传到对应 tag 的 GitHub Release。
 
+## 获取 `main` 上最新的 Windows 安装包
+
+1. 把代码 push 到 `main`。
+2. 打开该次 `main` 上最新的 `ci` workflow run。
+3. 下载上传的 `easy-pandoc-gui-windows-*` artifact。
+4. artifact 里会包含解包 exe、`.msi` 和 NSIS 安装包。
+
 ## Workflow 说明
 
-- `ci.yml` 是日常质量门禁。
+- `ci.yml` 是日常质量门禁，也会在 `main` 上上传 Windows 打包 artifact。
 - `release.yml` 由 `v*.*.*` tag 触发。
 - release notes 使用 `.github/release.yml` 自动生成。
 - 当前 release 构建默认不签名。

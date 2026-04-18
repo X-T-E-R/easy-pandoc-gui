@@ -100,6 +100,13 @@
   - 改名后 `cargo test` 通过
   - 改名后 `pnpm --filter @testpandoc/desktop tauri build --debug --no-bundle` 通过
   - 改名后产物：`apps/desktop/src-tauri/target/debug/easy_pandoc_gui.exe`
+  - 远端仓库已推送到 `https://github.com/X-T-E-R/easy-pandoc-gui`
+  - Git Windows 默认 `schannel` 推送失败，已切换该仓库本地 `http.sslBackend=openssl`
+  - 已补充 `ci.yml`：每次 push `main` 后自动构建 Windows 打包产物并上传 workflow artifact
+  - 已保留 `release.yml`：每次 push `v*.*.*` tag 自动发布 GitHub Release 资产
+  - `pnpm --filter @testpandoc/desktop tauri build` 通过
+  - release 产物：`apps/desktop/src-tauri/target/release/bundle/msi/Easy Pandoc GUI_0.1.0_x64_en-US.msi`
+  - release 产物：`apps/desktop/src-tauri/target/release/bundle/nsis/Easy Pandoc GUI_0.1.0_x64-setup.exe`
 
 ## Next Actions
 
