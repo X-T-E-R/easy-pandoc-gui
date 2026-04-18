@@ -30,6 +30,7 @@ pnpm cli -- transform --input ../test_pandoc.md --output tmp/test_pandoc.transfo
 pnpm cli -- export --input ../test_pandoc.md --output tmp/exports/test_pandoc.html --to html
 pnpm cli -- harness --manifest fixtures/real-world/manifest.json --json
 pnpm cli -- harness --manifest fixtures/real-world/manifest.json --report-dir fixtures/real-world
+pnpm cli -- doctor --json
 ```
 
 ## Delivery Track
@@ -38,6 +39,7 @@ pnpm cli -- harness --manifest fixtures/real-world/manifest.json --report-dir fi
 - `harness` 命令支持基于 manifest 批量跑真实样本，产出 summary、warning 和导出产物。
 - `harness` 现在支持 `--report-dir`，会把 JSON/Markdown 报告落到指定目录。
 - Pandoc stderr 现在会被收口成结构化 diagnostics，而不是只保留整段原始文本。
+- `doctor` 命令会直接检查当前机器上的 `pandoc` 和 `rsvg-convert` 可用性。
 - 桌面端当前已经改成交付工作台，展示共享规则矩阵、收口阶段和 harness 摘要；真正的 Tauri 命令层和文件交互还在后续阶段。
 
 ## Real Samples

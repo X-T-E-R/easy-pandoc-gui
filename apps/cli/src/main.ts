@@ -8,8 +8,10 @@ import { parseArgs } from 'node:util'
 import {
   analyzeMarkdownUsage,
   canonicalizeMarkdown,
+  runEnvironmentDoctor,
   runPandocJob,
-  type BuildPandocArgsInput
+  type BuildPandocArgsInput,
+  type EnvironmentDoctorResult
 } from '@testpandoc/core'
 import {
   parseHarnessManifest,
@@ -25,6 +27,7 @@ export interface CliIo {
 
 export interface CliDeps {
   runPandoc: (job: BuildPandocArgsInput) => Promise<{ stdout: string; stderr: string }>
+  runDoctor?: (input: { pandocPath?: string }) => Promise<EnvironmentDoctorResult>
 }
 
 const defaultIo: CliIo = {
@@ -33,7 +36,8 @@ const defaultIo: CliIo = {
 }
 
 const defaultDeps: CliDeps = {
-  runPandoc: runPandocJob
+  runPandoc: runPandocJob,
+  runDoctor: runEnvironmentDoctor
 }
 
 export async function runCli(
@@ -69,6 +73,24 @@ export async function runCli(
   })
 
   const inputPath = values.input ? path.resolve(baseDir, values.input) : ''
+
+  if (command === 'doctor') {
+    const runDoctor = deps.runDoctor ?? runEnvironmentDoctor
+    const result = await runDoctor({
+      pandocPath: values.pandoc
+    })
+
+    if (values.json) {
+      io.stdout(JSON.stringify(result, null, 2))
+      return 0
+    }
+
+    io.stdout(`doctor status: ${result.status}`)
+    for (const check of result.checks) {
+      io.stdout(`- ${check.id}: ${check.status} (${check.detail})`)
+    }
+    return 0
+  }
 
   if (command === 'harness') {
     if (!values.manifest) {
@@ -225,6 +247,7 @@ function printHelp(io: CliIo): void {
   io.stdout('  transform --input <file> [--output <file>]')
   io.stdout('  export --input <file> --output <file> [--to html|docx]')
   io.stdout('  harness --manifest <file> [--json] [--report-dir <dir>]')
+  io.stdout('  doctor [--json] [--pandoc <path>]')
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

@@ -33,6 +33,7 @@
 - 新增结构化 Pandoc diagnostics 解析，把 `missing-resource / math-render / generic-error` 等问题从 stderr 中收口出来
 - 新增 harness 报告落盘能力，CLI 现已支持 `harness --report-dir ...`
 - 桌面端现直接消费真实 `fixtures/real-world/harness-report.json`，不再只靠手写 snapshot
+- 新增 `doctor` 环境检查入口，CLI 现已支持 `doctor --json`
 
 ## Verification
 
@@ -62,10 +63,12 @@
   - `pnpm cli -- transform --input ../总稿_V2.1.md --output tmp/总稿_V2.1.canonical.md` 成功
   - `pnpm cli -- harness --manifest fixtures/real-world/manifest.json --json` 成功
   - `pnpm cli -- harness --manifest fixtures/real-world/manifest.json --report-dir fixtures/real-world` 成功
+  - `pnpm cli -- doctor --json` 成功
   - harness summary: `totalCases=3`、`warningCases=3`、`failedCases=0`
   - `test_pandoc.md` 经 canonicalization 后 `legacyCompatibleHits: 1 -> 0`
   - `总稿_V2.1.md` 经 canonicalization 后 `legacyCompatibleHits: 11 -> 1`，剩余 `forbiddenHits: 9`
   - 当前 unresolved asset 共 10 条，其中 9 条来自旧 Obsidian 绝对路径，1 条来自缺失的 `attachments/...jpg`
+  - doctor summary: `pandoc=ok (3.8.3)`、`rsvg-convert=missing`
   - 已生成并更新：
     - `fixtures/real-world/harness-report.json`
     - `fixtures/real-world/harness-report.md`

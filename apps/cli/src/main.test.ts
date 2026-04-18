@@ -207,4 +207,30 @@ describe('cli mode', () => {
       '# Harness Report'
     )
   })
+
+  test('doctor command reports environment checks in json', async () => {
+    const stdout: string[] = []
+    const exitCode = await runCli(
+      ['doctor', '--json'],
+      {
+        stdout: (line) => stdout.push(line),
+        stderr: () => undefined
+      },
+      {
+        runPandoc: () => Promise.resolve({ stdout: '', stderr: '' }),
+        runDoctor: () =>
+          Promise.resolve({
+            status: 'warning',
+            checks: [
+              { id: 'pandoc', status: 'ok', detail: 'pandoc 3.8.3' },
+              { id: 'rsvg-convert', status: 'missing', detail: 'spawn rsvg-convert ENOENT' }
+            ]
+          })
+      }
+    )
+
+    expect(exitCode).toBe(0)
+    expect(stdout.join('\n')).toContain('"id": "pandoc"')
+    expect(stdout.join('\n')).toContain('"status": "missing"')
+  })
 })
