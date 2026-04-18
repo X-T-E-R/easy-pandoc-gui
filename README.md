@@ -11,6 +11,7 @@
 
 ## Repository Layout
 
+- `apps/cli`: 真实数据调试和批处理入口
 - `apps/desktop`: Tauri 2 + React 桌面应用
 - `packages/core`: 配置、规则、兼容转换、Pandoc 编排
 - `packages/harness`: 测试夹具、快照、docx/xml 断言、回归工具
@@ -19,3 +20,11 @@
 - `docs/logs`: 执行日志、阶段记录、验收记录
 - `docs/superpowers`: 设计与实施计划
 
+## CLI
+
+常用命令：
+
+```bash
+pnpm cli -- inspect --input ../总稿_V2.1.md --json
+pnpm cli -- transform --input ../test_pandoc.md --output tmp/test_pandoc.transformed.md
+```

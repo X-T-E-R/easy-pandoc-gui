@@ -53,6 +53,7 @@
 
 采用 `pnpm workspace`，拆分为：
 
+- `apps/cli`
 - `apps/desktop`
 - `packages/core`
 - `packages/harness`
@@ -61,6 +62,7 @@
 
 - `core` 只承载规则、schema、转换编排、日志事件协议。
 - `desktop` 只承载 UI、桌面壳和受限系统接入。
+- `cli` 提供真实数据调试、规则迭代和批处理入口。
 - `harness` 只承载夹具、回归验证、docx/xml 断言和报告工具。
 
 ### 代码质量与工程门禁
@@ -224,4 +226,3 @@ Pandoc runner、资源管理、HTML 预览、DOCX 导出。
 - 有 harness 驱动的回归验证链。
 - 有结构化日志和转换阶段可观测性。
 - 新桌面应用可完成 lint、compat transform、preview、export 主流程。
-

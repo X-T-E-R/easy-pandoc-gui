@@ -24,6 +24,8 @@
 - 以 TDD 完成首条兼容转换规则和桌面应用壳层入口
 - 接入 Husky hooks、Commitlint、CI workflow、事件目录文档
 - 以 TDD 完成 app config schema、Pandoc 参数编排和 harness 摘要模块
+- 以 TDD 新增 CLI 模式、Markdown 扫描器和真实数据调试入口
+- 基于真实数据补出 `center-caption-block` 扫描规则和 `math-tag` 自动改写
 
 ## Verification
 
@@ -34,7 +36,12 @@
 - `pnpm typecheck` 通过
 - `pnpm lint` 通过
 - `pnpm build` 通过
-- 全量测试数量已扩展到 8 条，并再次通过 `test/typecheck/lint/build`
+- 全量测试数量已扩展到 12 条，并再次通过 `test/typecheck/lint/build`
+- CLI 真实数据验证：
+  - `总稿_V2.1.md` 当前命中：`standard=70`、`legacy=11`、`forbidden=9`
+  - `总稿_V2.1.md` transform 后命中：`legacy=1`、`forbidden=9`
+  - `test_pandoc.md` 当前命中：`standardExtension=1`、`legacy=1`
+  - `test_pandoc.md` transform 后命中：`legacy=0`
 
 ## Next Actions
 
@@ -43,3 +50,4 @@
 - 为 harness 增加 fixtures、报告和 docx XML 断言能力
 - 把桌面壳从静态入口扩展到规则矩阵、日志流和 harness 运行入口
 - 开始引入真实 legacy fixtures，并把旧项目样例迁入 harness 回归
+- 继续处理剩余 9 条绝对路径图片和 1 条独立中心题注块

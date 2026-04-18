@@ -36,6 +36,13 @@ const legacyCompatible: FormatRule[] = [
     handling: 'rewrite-and-warn'
   },
   {
+    id: 'center-caption-block',
+    label: 'Standalone center caption block',
+    category: 'legacyCompatible',
+    example: '<center>表 2.1 ...</center>',
+    handling: 'warn'
+  },
+  {
     id: 'math-tag',
     label: 'Math with explicit tag',
     category: 'legacyCompatible',
@@ -60,4 +67,3 @@ export const formatRegistry = {
   legacyCompatible,
   forbidden
 } as const
-

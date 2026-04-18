@@ -30,6 +30,7 @@
 | ID | 写法 | 示例 | 当前策略 |
 | --- | --- | --- | --- |
 | `image-center-caption` | 图片后接 `<center>` 题注 | `![img](a.png)` + `<center>图 1</center>` | 自动改写并告警 |
+| `center-caption-block` | 独立 `<center>` 题注块 | `<center>表 2.1 ...</center>` | 保留并告警，等待后续规则细化 |
 | `math-tag` | 公式内 `\\tag{}` | `$$ ... \\tag{2} $$` | 自动改写并告警 |
 | `manual-heading-number` | 手工写标题号 | `## 1.1 方法` | 解析后清洗并告警 |
 | `legacy-numeric-citation` | 手工数字引用 | `[1]` | 仅在 legacy 模式兼容 |
@@ -54,4 +55,3 @@
    - format registry
    - fixture
    - regression test
-

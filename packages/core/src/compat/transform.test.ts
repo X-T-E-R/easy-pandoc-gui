@@ -9,5 +9,11 @@ describe('legacy compatibility transform', () => {
 
     expect(output).toContain('![图 1 示例](a.png)')
   })
-})
 
+  test('rewrites math tags into pandoc equation identifiers', () => {
+    const input = '$$ a = b \\\\tag{2} $$'
+    const output = transformLegacyMarkdown(input)
+
+    expect(output).toContain('$$a = b$$ {#eq:2}')
+  })
+})
