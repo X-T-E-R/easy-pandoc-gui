@@ -17,4 +17,3 @@ describe('event envelope schema', () => {
     expect(result.success).toBe(true)
   })
 })
-

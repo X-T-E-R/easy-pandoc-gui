@@ -10,4 +10,3 @@ export const appConfigSchema = z.object({
 })
 
 export type AppConfig = z.infer<typeof appConfigSchema>
-

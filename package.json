@@ -1,5 +1,5 @@
 {
-  "name": "testpandoc-modern",
+  "name": "easy-pandoc-gui",
   "private": true,
   "version": "0.1.0",
   "packageManager": "pnpm@10.17.1",
@@ -13,6 +13,7 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "prepare": "husky",
+    "version:check": "node scripts/check-version-consistency.mjs",
     "test": "vitest run",
     "typecheck": "pnpm -r typecheck"
   },

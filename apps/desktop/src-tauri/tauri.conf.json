@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "testPandoc Modern",
+  "productName": "Easy Pandoc GUI",
   "version": "0.1.0",
-  "identifier": "com.xxoy1.testpandocmodern",
+  "identifier": "io.github.xter.easypandocgui",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "testPandoc Modern",
+        "title": "Easy Pandoc GUI",
         "width": 1480,
         "height": 980,
         "minWidth": 1160,

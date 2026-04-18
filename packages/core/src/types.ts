@@ -11,4 +11,3 @@ export interface FormatRule {
   example: string
   handling: string
 }
-

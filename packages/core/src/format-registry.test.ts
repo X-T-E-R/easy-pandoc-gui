@@ -9,4 +9,3 @@ describe('format registry', () => {
     expect(formatRegistry.forbidden.length).toBeGreaterThan(0)
   })
 })
-

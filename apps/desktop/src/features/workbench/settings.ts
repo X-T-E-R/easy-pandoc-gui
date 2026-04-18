@@ -9,7 +9,7 @@ export interface DesktopSettings {
   lastExportMode: 'html' | 'docx'
 }
 
-const STORAGE_KEY = 'testpandoc-modern.desktop-settings'
+const STORAGE_KEY = 'easy-pandoc-gui.desktop-settings'
 
 export const defaultDesktopSettings: DesktopSettings = {
   inputPath: '',

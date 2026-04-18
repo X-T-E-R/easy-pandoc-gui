@@ -16,4 +16,3 @@ describe('app config schema', () => {
     expect(result.success).toBe(true)
   })
 })
-

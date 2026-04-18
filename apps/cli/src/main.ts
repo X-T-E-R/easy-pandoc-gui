@@ -26,8 +26,12 @@ export interface CliIo {
 }
 
 export interface CliDeps {
-  runPandoc: (job: BuildPandocArgsInput) => Promise<{ stdout: string; stderr: string }>
-  runDoctor?: (input: { pandocPath?: string }) => Promise<EnvironmentDoctorResult>
+  runPandoc: (
+    job: BuildPandocArgsInput
+  ) => Promise<{ stdout: string; stderr: string }>
+  runDoctor?: (input: {
+    pandocPath?: string
+  }) => Promise<EnvironmentDoctorResult>
 }
 
 const defaultIo: CliIo = {
@@ -99,7 +103,9 @@ export async function runCli(
     }
 
     const manifestPath = path.resolve(baseDir, values.manifest)
-    const manifest = parseHarnessManifest(JSON.parse(await readFile(manifestPath, 'utf8')))
+    const manifest = parseHarnessManifest(
+      JSON.parse(await readFile(manifestPath, 'utf8'))
+    )
     const result = await runHarnessManifest(manifest, {
       cwd: baseDir,
       runPandoc: deps.runPandoc
@@ -111,7 +117,9 @@ export async function runCli(
       : undefined
 
     if (values.json) {
-      io.stdout(JSON.stringify(artifacts ? { ...result, artifacts } : result, null, 2))
+      io.stdout(
+        JSON.stringify(artifacts ? { ...result, artifacts } : result, null, 2)
+      )
       return 0
     }
 
@@ -159,11 +167,15 @@ export async function runCli(
   }
 
   if (command === 'transform') {
-    const outputPath = values.output ? path.resolve(baseDir, values.output) : undefined
+    const outputPath = values.output
+      ? path.resolve(baseDir, values.output)
+      : undefined
     const canonical = canonicalizeMarkdown({
       source,
       documentPath: inputPath,
-      rewriteBaseDir: outputPath ? path.dirname(outputPath) : path.dirname(inputPath),
+      rewriteBaseDir: outputPath
+        ? path.dirname(outputPath)
+        : path.dirname(inputPath),
       projectRoot: baseDir
     })
 
@@ -193,7 +205,9 @@ export async function runCli(
       documentPath: inputPath,
       rewriteBaseDir: path.dirname(inputPath),
       projectRoot: baseDir,
-      extraSearchRoots: values['resource-path']?.map((item) => path.resolve(baseDir, item))
+      extraSearchRoots: values['resource-path']?.map((item) =>
+        path.resolve(baseDir, item)
+      )
     })
     const tempInputPath = path.join(
       path.dirname(inputPath),
@@ -216,7 +230,9 @@ export async function runCli(
         resourcePaths: [
           path.dirname(inputPath),
           baseDir,
-          ...(values['resource-path']?.map((item) => path.resolve(baseDir, item)) ?? [])
+          ...(values['resource-path']?.map((item) =>
+            path.resolve(baseDir, item)
+          ) ?? [])
         ],
         referenceSectionTitle: values['section-title'],
         mode
@@ -250,7 +266,10 @@ function printHelp(io: CliIo): void {
   io.stdout('  doctor [--json] [--pandoc <path>]')
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
   const args = process.argv.slice(2)
   void runCli(args)
     .then((code) => {

@@ -23,7 +23,11 @@ describe('markdown canonicalization', () => {
     const rewriteBaseDir = projectRoot
     const assetDir = path.join(projectRoot, 'assets')
     mkdirSync(assetDir, { recursive: true })
-    writeFileSync(path.join(assetDir, 'figure.png'), 'binary-placeholder', 'utf8')
+    writeFileSync(
+      path.join(assetDir, 'figure.png'),
+      'binary-placeholder',
+      'utf8'
+    )
 
     const result = canonicalizeMarkdown({
       source: '![图](C:\\Users\\someone\\Obsidian\\vault\\assets\\figure.png)',

@@ -43,4 +43,3 @@ Accepted
 
 - 后续补充 Pandoc sidecar / 安装策略 ADR
 - 后续补充 fixture 与输出比较策略 ADR
-

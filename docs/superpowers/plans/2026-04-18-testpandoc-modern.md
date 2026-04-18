@@ -13,6 +13,7 @@
 ### Task 1: Repository Bootstrap And Guardrails
 
 **Files:**
+
 - Create: `.gitignore`
 - Create: `.editorconfig`
 - Create: `README.md`
@@ -77,6 +78,7 @@ git commit -m "chore: bootstrap repository guardrails"
 ### Task 2: Documentation And Decision Records
 
 **Files:**
+
 - Create: `docs/superpowers/specs/2026-04-18-testpandoc-modern-design.md`
 - Create: `docs/superpowers/plans/2026-04-18-testpandoc-modern.md`
 - Create: `docs/adr/0001-architecture-and-stack.md`
@@ -128,6 +130,7 @@ git commit -m "docs: record architecture and execution discipline"
 ### Task 3: Standard And Compatibility Registry
 
 **Files:**
+
 - Create: `docs/standards/markdown-compatibility-matrix.md`
 - Create: `packages/core/src/format-registry.ts`
 - Create: `packages/core/src/format-registry.test.ts`
@@ -158,8 +161,12 @@ Expected: FAIL because `format-registry.ts` does not exist yet
 ```ts
 export const formatRegistry = {
   standard: [{ id: 'pandoc-citation', label: 'Pandoc citation syntax' }],
-  standardExtension: [{ id: 'image-attributes', label: 'Pandoc image attributes' }],
-  legacyCompatible: [{ id: 'image-center-caption', label: 'Image plus center caption' }],
+  standardExtension: [
+    { id: 'image-attributes', label: 'Pandoc image attributes' }
+  ],
+  legacyCompatible: [
+    { id: 'image-center-caption', label: 'Image plus center caption' }
+  ],
   forbidden: [{ id: 'absolute-personal-path', label: 'Personal absolute path' }]
 } as const
 ```
@@ -179,6 +186,7 @@ git commit -m "feat: add format registry baseline"
 ### Task 4: Harness Foundation
 
 **Files:**
+
 - Create: `packages/harness/package.json`
 - Create: `packages/harness/src/index.ts`
 - Create: `packages/harness/src/docx-xml.ts`
@@ -194,7 +202,9 @@ import { extractWordBody } from './docx-xml'
 
 describe('docx xml helpers', () => {
   test('extracts document body from xml payload', () => {
-    const body = extractWordBody('<w:document><w:body><w:p/></w:body></w:document>')
+    const body = extractWordBody(
+      '<w:document><w:body><w:p/></w:body></w:document>'
+    )
     expect(body).toContain('<w:p/>')
   })
 })
@@ -233,6 +243,7 @@ git commit -m "feat: add harness foundation"
 ### Task 5: Observability Event Model
 
 **Files:**
+
 - Create: `packages/core/src/observability/events.ts`
 - Create: `packages/core/src/observability/events.test.ts`
 - Create: `docs/logs/observability-event-catalog.md`
@@ -295,6 +306,7 @@ git commit -m "feat: add observability event model"
 ### Task 6: Compatibility Transform Pipeline
 
 **Files:**
+
 - Create: `packages/core/src/compat/transform.ts`
 - Create: `packages/core/src/compat/transform.test.ts`
 - Create: `packages/core/src/compat/rules/image-center-caption.ts`
@@ -347,6 +359,7 @@ git commit -m "feat: add legacy compatibility transforms"
 ### Task 7: Pandoc Runner And Output Assertions
 
 **Files:**
+
 - Create: `packages/core/src/pandoc/runner.ts`
 - Create: `packages/core/src/pandoc/runner.test.ts`
 - Create: `packages/core/src/pandoc/contracts.ts`
@@ -392,8 +405,10 @@ export function buildPandocArgs(input: {
   if (input.mode === 'docx') args.push('-o', input.outputPath)
   if (input.mode === 'html') args.push('-t', 'html5', '--standalone')
   args.push('--citeproc')
-  if (input.bibliographyPath) args.push('--bibliography', input.bibliographyPath)
-  if (input.referenceDocPath) args.push('--reference-doc', input.referenceDocPath)
+  if (input.bibliographyPath)
+    args.push('--bibliography', input.bibliographyPath)
+  if (input.referenceDocPath)
+    args.push('--reference-doc', input.referenceDocPath)
   return args
 }
 ```
@@ -413,6 +428,7 @@ git commit -m "feat: add pandoc runner contracts"
 ### Task 8: Desktop Shell And UI Foundation
 
 **Files:**
+
 - Create: `apps/desktop/package.json`
 - Create: `apps/desktop/src/main.tsx`
 - Create: `apps/desktop/src/App.tsx`
@@ -473,6 +489,7 @@ git commit -m "feat: add desktop shell foundation"
 ### Task 9: CI, Hooks, And Traceable Automation
 
 **Files:**
+
 - Create: `.github/workflows/ci.yml`
 - Create: `.husky/pre-commit`
 - Create: `.husky/commit-msg`
@@ -541,6 +558,7 @@ git commit -m "chore: add ci and git hooks"
 ### Task 10: Execution Log Discipline
 
 **Files:**
+
 - Modify: `docs/logs/EXECUTION_LOG.md`
 - Create: `docs/logs/2026-04-18-session.md`
 - Create: `scripts/update-execution-log.mjs`

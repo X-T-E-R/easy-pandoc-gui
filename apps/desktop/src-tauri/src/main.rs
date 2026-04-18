@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-  testpandoc_desktop_lib::run();
+  easy_pandoc_gui_lib::run();
 }

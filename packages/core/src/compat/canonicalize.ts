@@ -78,7 +78,10 @@ export function canonicalizeMarkdown(
       }
 
       assetSummary.resolved += 1
-      const rewrittenPath = formatRelativeAssetPath(rewriteBaseDir, resolution.resolvedPath)
+      const rewrittenPath = formatRelativeAssetPath(
+        rewriteBaseDir,
+        resolution.resolvedPath
+      )
       return `![${altText}](${rewrittenPath})`
     }
   )
@@ -147,7 +150,10 @@ function extractSpecialTail(rawPath: string): string | undefined {
   return path.join(match[1] ?? '', match[2] ?? '')
 }
 
-function formatRelativeAssetPath(baseDir: string, resolvedPath: string): string {
+function formatRelativeAssetPath(
+  baseDir: string,
+  resolvedPath: string
+): string {
   const relative = path.relative(baseDir, resolvedPath)
   const candidate = relative.length > 0 ? relative : path.basename(resolvedPath)
 
@@ -159,5 +165,7 @@ function formatRelativeAssetPath(baseDir: string, resolvedPath: string): string 
 }
 
 function uniquePaths(values: Array<string | undefined>): string[] {
-  return Array.from(new Set(values.filter((value): value is string => Boolean(value))))
+  return Array.from(
+    new Set(values.filter((value): value is string => Boolean(value)))
+  )
 }

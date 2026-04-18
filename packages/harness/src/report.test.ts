@@ -79,7 +79,11 @@ describe('harness report', () => {
       }
     )
 
-    expect(readFileSync(artifacts.jsonPath, 'utf8')).toContain('"master-draft-docx"')
-    expect(readFileSync(artifacts.markdownPath, 'utf8')).toContain('# Harness Report')
+    expect(readFileSync(artifacts.jsonPath, 'utf8')).toContain(
+      '"master-draft-docx"'
+    )
+    expect(readFileSync(artifacts.markdownPath, 'utf8')).toContain(
+      '# Harness Report'
+    )
   })
 })

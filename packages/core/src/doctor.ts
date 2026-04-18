@@ -17,7 +17,10 @@ export interface EnvironmentDoctorInput {
 }
 
 export interface DoctorProcessRunner {
-  execFile: (command: string, args: string[]) => Promise<{ stdout: string; stderr: string }>
+  execFile: (
+    command: string,
+    args: string[]
+  ) => Promise<{ stdout: string; stderr: string }>
 }
 
 const execFileAsync = promisify(execFile)
@@ -43,7 +46,9 @@ export async function runEnvironmentDoctor(
   ])
 
   return {
-    status: checks.every((entry) => entry.status === 'ok') ? 'success' : 'warning',
+    status: checks.every((entry) => entry.status === 'ok')
+      ? 'success'
+      : 'warning',
     checks
   }
 }
@@ -55,7 +60,10 @@ async function checkExecutable(
 ): Promise<EnvironmentDoctorCheck> {
   try {
     const result = await processRunner.execFile(command, ['--version'])
-    const detail = firstNonEmptyLine(result.stdout) ?? firstNonEmptyLine(result.stderr) ?? 'available'
+    const detail =
+      firstNonEmptyLine(result.stdout) ??
+      firstNonEmptyLine(result.stderr) ??
+      'available'
 
     return {
       id,

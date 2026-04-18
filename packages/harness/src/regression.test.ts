@@ -1,4 +1,10 @@
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  mkdtempSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync
+} from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 
@@ -26,7 +32,11 @@ describe('harness regression runner', () => {
 
     const inputPath = path.join(sourceDir, 'legacy.md')
     writeFileSync(path.join(sourceDir, 'a.png'), 'binary-placeholder', 'utf8')
-    writeFileSync(inputPath, '![img](a.png)\n<center>图 1 示例</center>', 'utf8')
+    writeFileSync(
+      inputPath,
+      '![img](a.png)\n<center>图 1 示例</center>',
+      'utf8'
+    )
 
     const result = await runHarnessManifest(
       {
@@ -42,7 +52,11 @@ describe('harness regression runner', () => {
       {
         cwd: sourceDir,
         runPandoc: (job) => {
-          writeFileSync(job.outputPath, readFileSync(job.inputPath, 'utf8'), 'utf8')
+          writeFileSync(
+            job.outputPath,
+            readFileSync(job.inputPath, 'utf8'),
+            'utf8'
+          )
           return Promise.resolve({ stdout: '', stderr: '' })
         }
       }

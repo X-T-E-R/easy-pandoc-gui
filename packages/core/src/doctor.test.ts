@@ -23,7 +23,11 @@ describe('environment doctor', () => {
     )
 
     expect(result.status).toBe('warning')
-    expect(result.checks.find((entry) => entry.id === 'pandoc')?.status).toBe('ok')
-    expect(result.checks.find((entry) => entry.id === 'rsvg-convert')?.status).toBe('missing')
+    expect(result.checks.find((entry) => entry.id === 'pandoc')?.status).toBe(
+      'ok'
+    )
+    expect(
+      result.checks.find((entry) => entry.id === 'rsvg-convert')?.status
+    ).toBe('missing')
   })
 })

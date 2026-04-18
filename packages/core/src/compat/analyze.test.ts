@@ -4,7 +4,9 @@ import { analyzeMarkdownUsage } from './analyze'
 
 describe('markdown usage analysis', () => {
   test('detects legacy-compatible image caption pattern', () => {
-    const report = analyzeMarkdownUsage('![img](a.png)\n<center>图 1 示例</center>')
+    const report = analyzeMarkdownUsage(
+      '![img](a.png)\n<center>图 1 示例</center>'
+    )
 
     expect(report.legacyCompatibleHits).toBe(1)
     expect(report.ruleHits).toContainEqual(

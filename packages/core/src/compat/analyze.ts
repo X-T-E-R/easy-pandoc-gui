@@ -41,7 +41,10 @@ const DETECTORS: Detector[] = [
     ruleId: 'center-caption-block',
     category: 'legacyCompatible',
     count: (input, state) => {
-      const totalCenterBlocks = countMatches(input, /<center>(?!\s*$)(.*?)<\/center>/gs)
+      const totalCenterBlocks = countMatches(
+        input,
+        /<center>(?!\s*$)(.*?)<\/center>/gs
+      )
       const imageCaptionBlocks = state.get('image-center-caption') ?? 0
       return Math.max(0, totalCenterBlocks - imageCaptionBlocks)
     }
@@ -88,7 +91,10 @@ export function analyzeMarkdownUsage(input: string): MarkdownUsageReport {
   }
 }
 
-function sumByCategory(ruleHits: MarkdownRuleHit[], category: FormatRuleCategory): number {
+function sumByCategory(
+  ruleHits: MarkdownRuleHit[],
+  category: FormatRuleCategory
+): number {
   return ruleHits
     .filter((hit) => hit.category === category)
     .reduce((total, hit) => total + hit.count, 0)

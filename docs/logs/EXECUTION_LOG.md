@@ -39,6 +39,13 @@
 - 新增 Rust 命令层，负责 `load_document / export_document / run_doctor`
 - 新增桌面端本地配置持久化、导出状态展示和导出文件打开入口
 - 新增 Rust 单测，覆盖 legacy rewrite、diagnostics 解析和资源解析
+- 对外名称统一改成 `Easy Pandoc GUI`，桌面端产品名、窗口标题、包名和版本校验入口已对齐
+- 新增 `scripts/check-version-consistency.mjs`，检查 root package、desktop package 和 tauri config 三处版本一致性
+- 重写 GitHub Actions：
+  - `ci.yml` 增加 Ubuntu 质量门禁和 Windows Tauri smoke build
+  - `release.yml` 增加按 `v*.*.*` tag 自动构建并发布安装包产物
+- 新增 `.github/release.yml`，用 GitHub 自动 release notes 配置 release 分类
+- 新增中英文 README、发布说明和交付边界文档
 
 ## Verification
 
@@ -87,6 +94,12 @@
   - 产物：`apps/desktop/src-tauri/target/debug/testpandoc_desktop.exe`
   - `pnpm cli -- harness --manifest fixtures/real-world/manifest.json --report-dir fixtures/real-world` 再次通过，当前 `warningCases=3`、`failedCases=0`
   - `pnpm cli -- doctor --json` 再次通过，当前 `pandoc=ok (3.8.3)`、`rsvg-convert=missing`
+  - `pnpm version:check` 通过
+  - `pnpm check:format` 通过
+  - 改名后 `cargo check` 通过
+  - 改名后 `cargo test` 通过
+  - 改名后 `pnpm --filter @testpandoc/desktop tauri build --debug --no-bundle` 通过
+  - 改名后产物：`apps/desktop/src-tauri/target/debug/easy_pandoc_gui.exe`
 
 ## Next Actions
 
@@ -95,3 +108,4 @@
 - 为 harness 增加 Markdown / JSON 报告落盘和历史对比能力
 - 继续处理剩余 9 条缺失原图和 1 条独立中心表题注
 - 如果要交 Windows 安装包，再补 installer 工具链和签名/打包说明
+- 如果后面要正式分发 signed 安装包，再补 Windows/macOS code signing secrets

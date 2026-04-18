@@ -61,7 +61,9 @@ export interface HarnessManifestResult {
 
 export interface HarnessRuntimeOptions {
   cwd?: string
-  runPandoc?: (job: BuildPandocArgsInput) => Promise<{ stdout: string; stderr: string }>
+  runPandoc?: (
+    job: BuildPandocArgsInput
+  ) => Promise<{ stdout: string; stderr: string }>
 }
 
 export function parseHarnessManifest(value: unknown): HarnessManifest {
@@ -87,11 +89,16 @@ export function parseHarnessManifest(value: unknown): HarnessManifest {
       input: entry.input,
       output: entry.output,
       mode,
-      bibliography: typeof entry.bibliography === 'string' ? entry.bibliography : undefined,
-      referenceDoc: typeof entry.referenceDoc === 'string' ? entry.referenceDoc : undefined,
-      sectionTitle: typeof entry.sectionTitle === 'string' ? entry.sectionTitle : undefined,
+      bibliography:
+        typeof entry.bibliography === 'string' ? entry.bibliography : undefined,
+      referenceDoc:
+        typeof entry.referenceDoc === 'string' ? entry.referenceDoc : undefined,
+      sectionTitle:
+        typeof entry.sectionTitle === 'string' ? entry.sectionTitle : undefined,
       resourcePaths: Array.isArray(entry.resourcePaths)
-        ? entry.resourcePaths.filter((item): item is string => typeof item === 'string')
+        ? entry.resourcePaths.filter(
+            (item): item is string => typeof item === 'string'
+          )
         : undefined,
       pandoc: typeof entry.pandoc === 'string' ? entry.pandoc : undefined
     }
@@ -118,7 +125,9 @@ export async function runHarnessManifest(
       documentPath: inputPath,
       rewriteBaseDir: path.dirname(inputPath),
       projectRoot: cwd,
-      extraSearchRoots: entry.resourcePaths?.map((item) => path.resolve(cwd, item))
+      extraSearchRoots: entry.resourcePaths?.map((item) =>
+        path.resolve(cwd, item)
+      )
     })
     const after = analyzeMarkdownUsage(canonical.markdown)
     const tempInputPath = path.join(
@@ -189,7 +198,9 @@ export async function runHarnessManifest(
   }
 
   const passedCases = cases.filter((entry) => entry.status === 'passed').length
-  const warningCases = cases.filter((entry) => entry.status === 'warning').length
+  const warningCases = cases.filter(
+    (entry) => entry.status === 'warning'
+  ).length
   const failedCases = cases.filter((entry) => entry.status === 'failed').length
   const summaryStatus = createHarnessRunSummary({
     passed: passedCases,

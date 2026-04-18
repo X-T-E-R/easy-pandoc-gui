@@ -76,8 +76,8 @@ function isTauriRuntime(): boolean {
   }
 
   return (
-    typeof (window as typeof window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ !==
-    'undefined'
+    typeof (window as typeof window & { __TAURI_INTERNALS__?: unknown })
+      .__TAURI_INTERNALS__ !== 'undefined'
   )
 }
 
@@ -103,7 +103,9 @@ export async function pickBibliographyFile(): Promise<string | null> {
   const result = await open({
     multiple: false,
     directory: false,
-    filters: [{ name: 'Bibliography', extensions: ['bib', 'json', 'yaml', 'yml'] }]
+    filters: [
+      { name: 'Bibliography', extensions: ['bib', 'json', 'yaml', 'yml'] }
+    ]
   })
 
   return typeof result === 'string' ? result : null
@@ -151,7 +153,9 @@ export async function revealOutput(path: string): Promise<void> {
   await openPath(path)
 }
 
-export async function loadDocument(input: LoadDocumentInput): Promise<DesktopLoadDocumentResult> {
+export async function loadDocument(
+  input: LoadDocumentInput
+): Promise<DesktopLoadDocumentResult> {
   if (!isTauriRuntime()) {
     return {
       path: input.path,
@@ -165,7 +169,9 @@ export async function loadDocument(input: LoadDocumentInput): Promise<DesktopLoa
   return invoke<DesktopLoadDocumentResult>('load_document', { input })
 }
 
-export async function exportDocument(input: ExportDocumentInput): Promise<DesktopExportResult> {
+export async function exportDocument(
+  input: ExportDocumentInput
+): Promise<DesktopExportResult> {
   if (!isTauriRuntime()) {
     return {
       outputPath: input.outputPath,
@@ -180,7 +186,9 @@ export async function exportDocument(input: ExportDocumentInput): Promise<Deskto
   return invoke<DesktopExportResult>('export_document', { input })
 }
 
-export async function runDoctor(pandocPath?: string): Promise<DesktopDoctorResult> {
+export async function runDoctor(
+  pandocPath?: string
+): Promise<DesktopDoctorResult> {
   if (!isTauriRuntime()) {
     return {
       status: 'warning',

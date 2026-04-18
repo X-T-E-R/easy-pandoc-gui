@@ -63,7 +63,9 @@ export interface HarnessArtifactWriteResult {
   markdownPath: string
 }
 
-export function createHarnessRunSummary(input: HarnessRunInput): HarnessRunSummary {
+export function createHarnessRunSummary(
+  input: HarnessRunInput
+): HarnessRunSummary {
   const total = input.passed + input.failed
   const passRate = total === 0 ? 0 : Math.round((input.passed / total) * 100)
 
@@ -81,13 +83,20 @@ export function createHarnessRunSummary(input: HarnessRunInput): HarnessRunSumma
 }
 
 export function parsePandocDiagnostics(stderr: string): HarnessDiagnostic[] {
-  const entries = Array.from(stderr.matchAll(/\[(WARNING|ERROR)\]\s*([\s\S]*?)(?=\r?\n\[(?:WARNING|ERROR)\]|$)/g))
+  const entries = Array.from(
+    stderr.matchAll(
+      /\[(WARNING|ERROR)\]\s*([\s\S]*?)(?=\r?\n\[(?:WARNING|ERROR)\]|$)/g
+    )
+  )
 
   return entries.map((entry) => {
     const severity = entry[1] === 'ERROR' ? 'error' : 'warning'
     const message = entry[2]?.replace(/\r?\n\s+/g, ' ').trim() ?? ''
 
-    if (/Could not fetch resource/i.test(message) || /replacing image with description/i.test(message)) {
+    if (
+      /Could not fetch resource/i.test(message) ||
+      /replacing image with description/i.test(message)
+    ) {
       return {
         code: 'missing-resource',
         severity,
@@ -95,7 +104,10 @@ export function parsePandocDiagnostics(stderr: string): HarnessDiagnostic[] {
       }
     }
 
-    if (/Could not convert TeX math/i.test(message) || /rendering as TeX/i.test(message)) {
+    if (
+      /Could not convert TeX math/i.test(message) ||
+      /rendering as TeX/i.test(message)
+    ) {
       return {
         code: 'math-render',
         severity,
@@ -139,7 +151,9 @@ export function renderHarnessReportMarkdown(result: HarnessReportLike): string {
     lines.push(
       `- Legacy Hits: ${entry.before.legacyCompatibleHits} -> ${entry.after.legacyCompatibleHits}`
     )
-    lines.push(`- Forbidden Hits: ${entry.before.forbiddenHits} -> ${entry.after.forbiddenHits}`)
+    lines.push(
+      `- Forbidden Hits: ${entry.before.forbiddenHits} -> ${entry.after.forbiddenHits}`
+    )
 
     if (entry.warnings.length > 0) {
       lines.push('- Canonicalization Warnings:')

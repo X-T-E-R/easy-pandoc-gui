@@ -11,4 +11,3 @@ export function extractWordBody(xml: string): string {
 
   return xml.slice(start, end + BODY_CLOSE.length)
 }
-

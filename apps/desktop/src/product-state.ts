@@ -29,19 +29,22 @@ export const deliveryPhases = [
     id: 'Track A',
     title: 'Real Desktop Productization',
     status: 'in-progress',
-    description: '当前正在把桌面端升级成真正的 Tauri 2 产品壳，并接入真实文件/导出链。'
+    description:
+      '当前正在把桌面端升级成真正的 Tauri 2 产品壳，并接入真实文件/导出链。'
   },
   {
     id: 'Track B',
     title: 'Backend Command Layer And Persistence',
     status: 'in-progress',
-    description: 'Rust 命令层负责读文件、跑 Pandoc、做 doctor；最近配置会持久化保存。'
+    description:
+      'Rust 命令层负责读文件、跑 Pandoc、做 doctor；最近配置会持久化保存。'
   },
   {
     id: 'Track C',
     title: 'Product Workflow, Diagnostics, And Observability',
     status: 'in-progress',
-    description: 'UI 正在直接展示 inspect、canonical warning、export diagnostics 和环境阻塞。'
+    description:
+      'UI 正在直接展示 inspect、canonical warning、export diagnostics 和环境阻塞。'
   },
   {
     id: 'Track D',

@@ -32,7 +32,10 @@ export function buildPandocArgs(input: BuildPandocArgsInput): string[] {
   }
 
   if (input.referenceSectionTitle) {
-    args.push('--metadata', `reference-section-title=${input.referenceSectionTitle}`)
+    args.push(
+      '--metadata',
+      `reference-section-title=${input.referenceSectionTitle}`
+    )
   }
 
   if (input.resourcePaths && input.resourcePaths.length > 0) {
@@ -43,7 +46,10 @@ export function buildPandocArgs(input: BuildPandocArgsInput): string[] {
 }
 
 export interface PandocProcessRunner {
-  execFile: (command: string, args: string[]) => Promise<{ stdout: string; stderr: string }>
+  execFile: (
+    command: string,
+    args: string[]
+  ) => Promise<{ stdout: string; stderr: string }>
 }
 
 const execFileAsync = promisify(execFile)

@@ -23,7 +23,9 @@ import {
 
 type BusyAction = 'idle' | 'loading' | 'export-html' | 'export-docx' | 'doctor'
 
-function getStatusClass(status?: 'success' | 'warning' | 'error' | 'ok' | 'missing') {
+function getStatusClass(
+  status?: 'success' | 'warning' | 'error' | 'ok' | 'missing'
+) {
   if (status === 'success' || status === 'ok') {
     return 'status-success'
   }
@@ -36,9 +38,15 @@ function getStatusClass(status?: 'success' | 'warning' | 'error' | 'ok' | 'missi
 }
 
 export function WorkbenchPanel() {
-  const [settings, setSettings] = useState<DesktopSettings>(() => loadDesktopSettings())
-  const [document, setDocument] = useState<DesktopLoadDocumentResult | null>(null)
-  const [doctorResult, setDoctorResult] = useState<DesktopDoctorResult | null>(null)
+  const [settings, setSettings] = useState<DesktopSettings>(() =>
+    loadDesktopSettings()
+  )
+  const [document, setDocument] = useState<DesktopLoadDocumentResult | null>(
+    null
+  )
+  const [doctorResult, setDoctorResult] = useState<DesktopDoctorResult | null>(
+    null
+  )
   const [lastExport, setLastExport] = useState<DesktopExportResult | null>(null)
   const [busyAction, setBusyAction] = useState<BusyAction>('idle')
   const [feedback, setFeedback] = useState<string>('还没有加载文档。')
@@ -52,7 +60,9 @@ export function WorkbenchPanel() {
   }, [])
 
   const sourceUsage = document ? analyzeMarkdownUsage(document.source) : null
-  const canonicalUsage = document ? analyzeMarkdownUsage(document.canonicalMarkdown) : null
+  const canonicalUsage = document
+    ? analyzeMarkdownUsage(document.canonicalMarkdown)
+    : null
 
   async function refreshDoctor(pandocPath?: string) {
     try {
@@ -182,7 +192,8 @@ export function WorkbenchPanel() {
 
   const exportDiagnostics = lastExport?.diagnostics ?? []
   const activeWarnings = lastExport?.warnings ?? document?.warnings ?? []
-  const previewMarkdown = lastExport?.canonicalMarkdown ?? document?.canonicalMarkdown ?? ''
+  const previewMarkdown =
+    lastExport?.canonicalMarkdown ?? document?.canonicalMarkdown ?? ''
 
   return (
     <article className="panel">
@@ -190,7 +201,8 @@ export function WorkbenchPanel() {
         <div>
           <h2>文档工作台</h2>
           <p className="muted">
-            这里直接走真实文件读取、canonical 预览、Pandoc 导出和环境检查，不再是占位页。
+            这里直接走真实文件读取、canonical 预览、Pandoc
+            导出和环境检查，不再是占位页。
           </p>
         </div>
         <span className="inline-pill">{feedback}</span>
@@ -201,9 +213,13 @@ export function WorkbenchPanel() {
           <div className="split-header">
             <div>
               <h3>最近配置</h3>
-              <p className="muted">最近一次输入、导出模式和模板路径会自动保存在本地。</p>
+              <p className="muted">
+                最近一次输入、导出模式和模板路径会自动保存在本地。
+              </p>
             </div>
-            {settings.inputPath ? <span className="path-chip">{settings.inputPath}</span> : null}
+            {settings.inputPath ? (
+              <span className="path-chip">{settings.inputPath}</span>
+            ) : null}
           </div>
 
           <div className="form-grid">
@@ -236,7 +252,9 @@ export function WorkbenchPanel() {
                 }
                 placeholder="可选，Word 模板 .docx"
               />
-              <div className="field-hint">DOCX 导出时会注入 `--reference-doc`。</div>
+              <div className="field-hint">
+                DOCX 导出时会注入 `--reference-doc`。
+              </div>
             </div>
 
             <div className="field">
@@ -269,10 +287,7 @@ export function WorkbenchPanel() {
               />
             </div>
 
-            <div
-              className="field"
-              style={{ gridColumn: '1 / -1' }}
-            >
+            <div className="field" style={{ gridColumn: '1 / -1' }}>
               <label htmlFor="resourceRoots">Resource Roots</label>
               <textarea
                 id="resourceRoots"
@@ -328,7 +343,9 @@ export function WorkbenchPanel() {
           <div className="split-header">
             <div>
               <h3>环境检查</h3>
-              <p className="muted">导出前先确认 Pandoc 和 SVG 转换器的真实状态。</p>
+              <p className="muted">
+                导出前先确认 Pandoc 和 SVG 转换器的真实状态。
+              </p>
             </div>
             <button
               className="ghost-button"
@@ -341,20 +358,25 @@ export function WorkbenchPanel() {
           </div>
 
           <div className="status-strip">
-            <span className={`inline-pill ${getStatusClass(doctorResult?.status)}`}>
+            <span
+              className={`inline-pill ${getStatusClass(doctorResult?.status)}`}
+            >
               doctor: {doctorResult?.status ?? 'pending'}
             </span>
-            {busyAction === 'doctor' ? <span className="inline-pill">checking...</span> : null}
+            {busyAction === 'doctor' ? (
+              <span className="inline-pill">checking...</span>
+            ) : null}
           </div>
 
           <div className="two-column-list">
             {(doctorResult?.checks ?? []).map((check) => (
-              <div
-                className="status-card"
-                key={check.id}
-              >
+              <div className="status-card" key={check.id}>
                 <span className="status-label">{check.id}</span>
-                <span className={`status-value ${getStatusClass(check.status)}`}>{check.status}</span>
+                <span
+                  className={`status-value ${getStatusClass(check.status)}`}
+                >
+                  {check.status}
+                </span>
                 <div>{check.detail}</div>
               </div>
             ))}
@@ -364,7 +386,9 @@ export function WorkbenchPanel() {
         <section className="card-grid">
           <div className="metric-card">
             <span className="metric-label">输入文档</span>
-            <span className="metric-value">{document ? 'loaded' : 'pending'}</span>
+            <span className="metric-value">
+              {document ? 'loaded' : 'pending'}
+            </span>
             <div>{document?.path ?? '还未选择文件'}</div>
           </div>
           <div className="metric-card">
@@ -410,7 +434,9 @@ export function WorkbenchPanel() {
           <div className="split-header">
             <div>
               <h3>导出动作</h3>
-              <p className="muted">真实走 Pandoc，导出前会自动做 canonicalization。</p>
+              <p className="muted">
+                真实走 Pandoc，导出前会自动做 canonicalization。
+              </p>
             </div>
             {lastExport?.outputPath ? (
               <button
@@ -495,7 +521,9 @@ export function WorkbenchPanel() {
 
         <section className="list-card">
           <h3>Canonical Preview</h3>
-          <pre className="preview">{previewMarkdown || '还没有生成 canonical 预览。'}</pre>
+          <pre className="preview">
+            {previewMarkdown || '还没有生成 canonical 预览。'}
+          </pre>
         </section>
       </div>
     </article>

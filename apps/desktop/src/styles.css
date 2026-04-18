@@ -4,8 +4,16 @@
   line-height: 1.5;
   font-weight: 400;
   background:
-    radial-gradient(circle at top left, rgba(255, 210, 128, 0.48), transparent 28%),
-    radial-gradient(circle at 85% 0%, rgba(70, 113, 255, 0.24), transparent 24%),
+    radial-gradient(
+      circle at top left,
+      rgba(255, 210, 128, 0.48),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 85% 0%,
+      rgba(70, 113, 255, 0.24),
+      transparent 24%
+    ),
     linear-gradient(160deg, #fbf5eb 0%, #f1f0ea 48%, #d8e3ef 100%);
   color: #1f2533;
   --surface: rgba(255, 255, 255, 0.84);
