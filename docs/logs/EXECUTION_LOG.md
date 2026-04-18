@@ -104,6 +104,7 @@
   - Git Windows 默认 `schannel` 推送失败，已切换该仓库本地 `http.sslBackend=openssl`
   - 已补充 `ci.yml`：每次 push `main` 后自动构建 Windows 打包产物并上传 workflow artifact
   - 已保留 `release.yml`：每次 push `v*.*.*` tag 自动发布 GitHub Release 资产
+  - 已修复 GitHub Actions 的 pnpm 版本冲突：去掉 workflow 里重复的 `version: 10`，统一只读 `package.json -> packageManager`
   - `pnpm --filter @testpandoc/desktop tauri build` 通过
   - release 产物：`apps/desktop/src-tauri/target/release/bundle/msi/Easy Pandoc GUI_0.1.0_x64_en-US.msi`
   - release 产物：`apps/desktop/src-tauri/target/release/bundle/nsis/Easy Pandoc GUI_0.1.0_x64-setup.exe`
