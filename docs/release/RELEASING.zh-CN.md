@@ -7,13 +7,14 @@
 ## 打包模式
 
 - `main` 分支打包：每次 push 到 `main` 都会触发 `ci.yml`，构建 Windows 桌面安装包，并上传成 workflow artifact。
-- 版本发布打包：每次 push `vX.Y.Z` tag 都会触发 `release.yml`，构建配置好的平台产物，并发布到 GitHub Release。
+- 版本发布打包：每次 push `vX.Y.Z` tag 都会触发 `release.yml`，构建配置好的平台产物、updater 元数据，并发布到 GitHub Release。
 
 ## 发布前提
 
 - 本地所有门禁通过。
 - `package.json`、`apps/desktop/package.json`、`apps/desktop/src-tauri/tauri.conf.json` 三处版本一致。
 - release tag 与版本一致，格式为 `vX.Y.Z`。
+- GitHub Actions 里必须配置 `TAURI_SIGNING_PRIVATE_KEY`，如有密码再额外配置 `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`。
 
 ## 本地检查清单
 
@@ -48,20 +49,21 @@ git push origin vX.Y.Z
 
 3. GitHub Actions 会自动触发 `.github/workflows/release.yml`。
 4. workflow 会为配置好的平台构建 release 产物，并自动上传到对应 tag 的 GitHub Release。
+5. workflow 还会生成 `latest.json` 和带签名的 updater 产物，供应用内更新使用。
 
 ## 获取 `main` 上最新的 Windows 安装包
 
 1. 把代码 push 到 `main`。
 2. 打开该次 `main` 上最新的 `ci` workflow run。
 3. 下载上传的 `easy-pandoc-gui-windows-*` artifact。
-4. artifact 里会包含解包 exe、`.msi` 和 NSIS 安装包。
+4. artifact 里会包含解包 exe、`.msi` / NSIS 安装包、签名文件，以及可用时的 updater 元数据。
 
 ## Workflow 说明
 
 - `ci.yml` 是日常质量门禁，也会在 `main` 上上传 Windows 打包 artifact。
 - `release.yml` 由 `v*.*.*` tag 触发。
 - release notes 使用 `.github/release.yml` 自动生成。
-- 当前 release 构建默认不签名。
+- updater 公钥写在 `apps/desktop/src-tauri/tauri.conf.json`，私钥只能放 GitHub secrets 和安全的本地存储里。
 
 ## GitHub Actions 里的平台依赖
 

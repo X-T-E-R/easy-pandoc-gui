@@ -19,6 +19,19 @@ const files = [
     label: 'tauri config',
     path: 'apps/desktop/src-tauri/tauri.conf.json',
     readVersion: (content) => JSON.parse(content).version
+  },
+  {
+    label: 'desktop cargo package',
+    path: 'apps/desktop/src-tauri/Cargo.toml',
+    readVersion: (content) => {
+      const match = content.match(/^version\s*=\s*"([^"]+)"/m)
+      if (!match) {
+        throw new Error(
+          'Missing version field in apps/desktop/src-tauri/Cargo.toml'
+        )
+      }
+      return match[1]
+    }
   }
 ]
 

@@ -46,6 +46,12 @@
   - `release.yml` 增加按 `v*.*.*` tag 自动构建并发布安装包产物
 - 新增 `.github/release.yml`，用 GitHub 自动 release notes 配置 release 分类
 - 新增中英文 README、发布说明和交付边界文档
+- 桌面端新增更新中心，支持手动检查更新、启动自动检查和自动下载安装切换
+- 桌面端 UI 重构成侧边导航 + 主工作台 + 右侧更新中心，不再是单页卡片堆叠
+- 接入 Tauri updater：Rust 命令层新增 `check_for_update / install_update`，前端新增下载进度展示
+- 打包配置新增 updater public key、`latest.json` endpoint 和 Windows `passive` 安装模式
+- GitHub Actions 新增 updater 签名变量透传，Windows artifact 现包含 `.sig` 和 updater JSON
+- GitHub 仓库已配置 `TAURI_SIGNING_PRIVATE_KEY` 与空密码 secret，供 release / main 打包使用
 
 ## Verification
 
@@ -110,6 +116,11 @@
   - `pnpm --filter @testpandoc/desktop tauri build` 通过
   - release 产物：`apps/desktop/src-tauri/target/release/bundle/msi/Easy Pandoc GUI_0.1.0_x64_en-US.msi`
   - release 产物：`apps/desktop/src-tauri/target/release/bundle/nsis/Easy Pandoc GUI_0.1.0_x64-setup.exe`
+  - `pnpm --filter @testpandoc/desktop typecheck` 通过
+  - `pnpm --filter @testpandoc/desktop test` 通过，当前桌面端 UI 测试 `4/4` 通过
+  - `pnpm build` 通过
+  - `cargo check --manifest-path apps/desktop/src-tauri/Cargo.toml` 通过
+  - `cargo test --manifest-path apps/desktop/src-tauri/Cargo.toml` 通过，Rust 测试 `3/3` 通过
 
 ## Next Actions
 
@@ -117,5 +128,5 @@
 - 把 Pandoc stderr 分类成结构化 warning，而不是只保留原始文本
 - 为 harness 增加 Markdown / JSON 报告落盘和历史对比能力
 - 继续处理剩余 9 条缺失原图和 1 条独立中心表题注
-- 如果要交 Windows 安装包，再补 installer 工具链和签名/打包说明
-- 如果后面要正式分发 signed 安装包，再补 Windows/macOS code signing secrets
+- 用新签名配置再跑一次 Windows Tauri bundling，确认 `.sig` 和 `latest.json` 实际产出
+- 把这轮 UI / updater 改动提交并推到远端，触发新的 `main` workflow 验证

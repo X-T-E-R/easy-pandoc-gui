@@ -27,6 +27,7 @@
   },
   "bundle": {
     "active": true,
+    "createUpdaterArtifacts": true,
     "targets": "all",
     "icon": [
       "icons/32x32.png",
@@ -35,5 +36,16 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY3NUJCQUMzMDlGMDcyOEUKUldTT2N2QUp3N3BiOTkwKzFxKzlNRzhxY2hxUkxrQWRPaEpPeXhudG50Rm13dmhzZENiVUdkNEgK",
+      "endpoints": [
+        "https://github.com/X-T-E-R/easy-pandoc-gui/releases/latest/download/latest.json"
+      ],
+      "windows": {
+        "installMode": "passive"
+      }
+    }
   }
 }

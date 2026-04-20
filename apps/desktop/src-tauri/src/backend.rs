@@ -2,11 +2,14 @@ use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::process::Command;
+use std::sync::Mutex;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use pathdiff::diff_paths;
 use regex::{Captures, Regex};
 use serde::{Deserialize, Serialize};
+use tauri::{ipc::Channel, AppHandle, State};
+use tauri_plugin_updater::{Update, UpdaterExt};
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -102,11 +105,39 @@ pub struct DoctorResult {
   checks: Vec<DoctorCheck>,
 }
 
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct UpdateCheckResult {
+  available: bool,
+  current_version: String,
+  version: Option<String>,
+  body: Option<String>,
+  date: Option<String>,
+}
+
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "event", content = "data")]
+pub enum UpdateDownloadEvent {
+  #[serde(rename_all = "camelCase")]
+  Started {
+    content_length: Option<u64>,
+  },
+  #[serde(rename_all = "camelCase")]
+  Progress {
+    chunk_length: usize,
+    content_length: Option<u64>,
+  },
+  Finished,
+}
+
 struct CanonicalizeResult {
   markdown: String,
   warnings: Vec<CanonicalizeWarning>,
   asset_summary: AssetSummary,
 }
+
+#[derive(Default)]
+pub struct PendingUpdate(pub Mutex<Option<Update>>);
 
 #[tauri::command]
 pub fn load_document(input: LoadDocumentInput) -> Result<LoadDocumentResult, String> {
@@ -199,6 +230,73 @@ pub fn run_doctor(input: DoctorInput) -> Result<DoctorResult, String> {
   };
 
   Ok(DoctorResult { status, checks })
+}
+
+#[tauri::command]
+pub async fn check_for_update(
+  app: AppHandle,
+  pending_update: State<'_, PendingUpdate>,
+) -> Result<UpdateCheckResult, String> {
+  let current_version = app.package_info().version.to_string();
+  let update = app
+    .updater_builder()
+    .build()
+    .map_err(|error| format!("初始化 updater 失败: {}", error))?
+    .check()
+    .await
+    .map_err(|error| format!("检查更新失败: {}", error))?;
+
+  let result = UpdateCheckResult {
+    available: update.is_some(),
+    current_version,
+    version: update.as_ref().map(|item| item.version.clone()),
+    body: update.as_ref().and_then(|item| item.body.clone()),
+    date: update
+      .as_ref()
+      .and_then(|item| item.date.as_ref().map(|value| value.to_string())),
+  };
+
+  *pending_update.0.lock().unwrap() = update;
+
+  Ok(result)
+}
+
+#[tauri::command]
+pub async fn install_update(
+  _app: AppHandle,
+  pending_update: State<'_, PendingUpdate>,
+  on_event: Channel<UpdateDownloadEvent>,
+) -> Result<(), String> {
+  let Some(update) = pending_update.0.lock().unwrap().take() else {
+    return Err("当前没有待安装的更新。先执行一次检查更新。".to_string());
+  };
+
+  let mut started = false;
+
+  update
+    .download_and_install(
+      |chunk_length, content_length| {
+        if !started {
+          let _ = on_event.send(UpdateDownloadEvent::Started { content_length });
+          started = true;
+        }
+
+        let _ = on_event.send(UpdateDownloadEvent::Progress {
+          chunk_length,
+          content_length,
+        });
+      },
+      || {
+        let _ = on_event.send(UpdateDownloadEvent::Finished);
+      },
+    )
+    .await
+    .map_err(|error| format!("安装更新失败: {}", error))?;
+
+  #[cfg(not(target_os = "windows"))]
+  _app.restart();
+
+  Ok(())
 }
 
 fn check_executable(id: &'static str, command: &str) -> DoctorCheck {

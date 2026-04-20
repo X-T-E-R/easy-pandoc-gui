@@ -149,6 +149,9 @@ jobs:
         run: pnpm version:check
 
       - name: Build Windows desktop bundles
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: pnpm --filter @testpandoc/desktop tauri build
 
       - name: Upload Windows desktop artifacts
@@ -160,4 +163,7 @@ jobs:
           path: |
             apps/desktop/src-tauri/target/release/easy_pandoc_gui.exe
             apps/desktop/src-tauri/target/release/bundle/msi/*.msi
+            apps/desktop/src-tauri/target/release/bundle/msi/*.sig
             apps/desktop/src-tauri/target/release/bundle/nsis/*.exe
+            apps/desktop/src-tauri/target/release/bundle/nsis/*.sig
+            apps/desktop/src-tauri/target/release/bundle/**/*.json

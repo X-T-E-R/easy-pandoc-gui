@@ -15,8 +15,9 @@ This project grew out of a larger `testPandoc` rebuild effort. The public-facing
 - Canonicalize real-world manuscripts before export so legacy content is easier to reason about.
 - Export HTML and DOCX through Pandoc from both CLI and desktop workflows.
 - Surface unresolved assets, Pandoc warnings, and environment checks in one place.
+- Check for updates manually, auto-check on startup, and trigger installer-based updates from the desktop app.
 - Run manifest-driven regression checks against real samples.
-- Build Windows artifacts on `main` and publish versioned installers through GitHub Actions.
+- Build updater-ready Windows artifacts on `main` and publish versioned installers through GitHub Actions.
 
 ## Repository Layout
 
@@ -91,6 +92,7 @@ The repository now ships with two GitHub Actions workflows:
 
 - `ci.yml`: lint, typecheck, test, build, Rust checks, Windows Tauri smoke build, and a Windows packaged build uploaded as workflow artifacts on every push to `main`.
 - `release.yml`: on every pushed `v*.*.*` tag, build platform artifacts and publish release assets automatically.
+- Tauri updater artifacts and `latest.json` are generated during packaged builds so the desktop app can check and install updates.
 
 Release notes are generated from `.github/release.yml`.
 
@@ -101,7 +103,7 @@ If you only need the latest Windows package from the default branch, open the la
 The repository now has two packaging paths:
 
 1. Push to `main`: GitHub Actions builds a Windows package and uploads it as a workflow artifact.
-2. Push a version tag: GitHub Actions builds release assets and publishes them to GitHub Release.
+2. Push a version tag: GitHub Actions builds release assets, updater metadata, and publishes them to GitHub Release.
 
 The versioned installer flow is tag-driven:
 
@@ -116,4 +118,4 @@ Detailed instructions are in [RELEASING.md](./docs/release/RELEASING.md).
 
 - Missing source assets from legacy absolute paths can only be reported, not magically restored.
 - One standalone `<center>` table-caption pattern is still classified and warned about instead of being auto-rewritten.
-- Release builds are currently unsigned by default. If you need signed Windows or macOS installers, add your platform signing secrets first.
+- The updater relies on GitHub Release assets and signed updater bundles. If you rotate the signing key, users on the old key can no longer trust new updates.

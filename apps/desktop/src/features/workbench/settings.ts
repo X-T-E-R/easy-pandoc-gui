@@ -7,6 +7,8 @@ export interface DesktopSettings {
   sectionTitle: string
   lastOutputPath: string
   lastExportMode: 'html' | 'docx'
+  autoCheckForUpdates: boolean
+  autoInstallUpdates: boolean
 }
 
 const STORAGE_KEY = 'easy-pandoc-gui.desktop-settings'
@@ -19,7 +21,9 @@ export const defaultDesktopSettings: DesktopSettings = {
   pandocPath: '',
   sectionTitle: '参考文献',
   lastOutputPath: '',
-  lastExportMode: 'docx'
+  lastExportMode: 'docx',
+  autoCheckForUpdates: true,
+  autoInstallUpdates: false
 }
 
 export function loadDesktopSettings(): DesktopSettings {

@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/core'
+import { Channel, invoke } from '@tauri-apps/api/core'
 import { open, save } from '@tauri-apps/plugin-dialog'
 import { openPath } from '@tauri-apps/plugin-opener'
 
@@ -52,6 +52,32 @@ export interface DesktopDoctorResult {
   status: 'success' | 'warning' | 'error'
   checks: DesktopDoctorCheck[]
 }
+
+export interface DesktopUpdateCheckResult {
+  available: boolean
+  currentVersion: string
+  version: string | null
+  body: string | null
+  date: string | null
+}
+
+export type DesktopUpdateDownloadEvent =
+  | {
+      event: 'Started'
+      data: {
+        contentLength: number | null
+      }
+    }
+  | {
+      event: 'Progress'
+      data: {
+        chunkLength: number
+        contentLength: number | null
+      }
+    }
+  | {
+      event: 'Finished'
+    }
 
 export interface LoadDocumentInput {
   path: string
@@ -207,4 +233,29 @@ export async function runDoctor(
       pandocPath
     }
   })
+}
+
+export async function checkForUpdates(): Promise<DesktopUpdateCheckResult> {
+  if (!isTauriRuntime()) {
+    return {
+      available: false,
+      currentVersion: 'preview',
+      version: null,
+      body: null,
+      date: null
+    }
+  }
+
+  return invoke<DesktopUpdateCheckResult>('check_for_update')
+}
+
+export async function installUpdate(
+  onEvent: (event: DesktopUpdateDownloadEvent) => void
+): Promise<void> {
+  if (!isTauriRuntime()) {
+    return
+  }
+
+  const channel = new Channel<DesktopUpdateDownloadEvent>(onEvent)
+  await invoke('install_update', { onEvent: channel })
 }
